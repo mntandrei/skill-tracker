@@ -8,13 +8,13 @@ export default function NavBar() {
           <h1>Skill Tracker</h1>
           <div className="flex flex-row gap-5">
             <Link href="/" className="hover:bg-white/30 rounded-md p-1">
-              Home
+              Dashboard
+            </Link>
+            <Link href="/Skills" className="hover:bg-white/30 rounded-md p-1">
+              Skills
             </Link>
             <Link href="/About" className="hover:bg-white/30 rounded-md p-1">
-              About
-            </Link>
-            <Link href="/Contact" className="hover:bg-white/30 rounded-md p-1">
-              Contact
+              About 
             </Link>
           </div>
         </div>
