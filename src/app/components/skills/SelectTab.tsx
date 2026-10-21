@@ -7,9 +7,10 @@ export default function SelectTab() {
   const recommendedSkills = ["JavaScript", "React", "Next.js", "Angular", "TypeScript","etc.."];
 
   return (
-    <div className="min-h-52 rounded-xl border border-gray-200 border-l-4 border-l-red-400 bg-white p-5 shadow-sm ">
+    <div className="min-h-52 rounded-xl border border-gray-200 border-l-4 border-l-red-500 bg-white p-5 shadow-sm">
       <h2 className="text-xl font-semibold">Select Skill</h2>
-      <select className="mt-3 w-full rounded border border-gray-300 p-2" onChange={(e) => setSelectSkill(e.target.value)} >
+      <select className="mt-3 w-full rounded border border-gray-300 p-2 outline-none focus:border-red-500 focus:ring-2 focus:ring-500/30 transition ease-in-out duration-300" 
+      onChange={(e) => setSelectSkill(e.target.value)} >
         <option value="">Select a skill</option>
         {skill.map((skill) => (
           <option key={skill} value={skill.toLowerCase()}>

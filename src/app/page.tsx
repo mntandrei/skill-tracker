@@ -10,7 +10,6 @@ export default function Home() {
       <div className="shrink-0">
         <NavBar />
       </div>
-
       <main className="mt-4 min-h-0 flex-1">
         <PannelSkills />
         <div className="fixed right-5 bottom-5 flex items-center gap-2 rounded-xl border border-gray-200 bg-white/90 px-4 py-2 shadow-md backdrop-blur-sm">
@@ -22,8 +21,6 @@ export default function Home() {
             {release}
           </span>
         </div>
-
-
       </main>
     </div>
   );
