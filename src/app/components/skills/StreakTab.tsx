@@ -17,7 +17,7 @@ export default function StreakTab() {
       <button
         type="button"
         onClick={() => setStreak((prev) => prev + 1)}
-        className="mt-8 inline-flex items-center gap-2 rounded-3xl bg-red-600 px-10 py-3 text-md font-semibold text-white transition hover:bg-red-700 hover:scale-103 transition-transform">
+        className="mt-8 inline-flex items-center gap-2 rounded-3xl bg-red-700 px-10 py-3 text-md font-semibold text-white transition hover:bg-red-800 hover:scale-103 transition-transform">
         <span>🔥</span>
         Increase Streak
       </button>

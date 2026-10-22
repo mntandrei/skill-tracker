@@ -20,10 +20,11 @@ export default function NavBar() {
           <Image
             src="/icon.svg"
             alt=""
-            width={38}
-            height={38}
-            className="size-9 object-contain"/>
-          <span className="hidden text-lg font-bold tracking-tight sm:inline">
+            width={40}
+            height={40}
+            loading="eager"
+            className="size-9 object-contain hover:scale-110 transition-transform duration-300"/>
+          <span className="hidden text-lg font-bold tracking-tight sm:inline hover:scale-105 transition-transform duration-300">
             <span className="text-zinc-900">Skill</span>
             <span className="text-red-700"> Tracker</span>
           </span>

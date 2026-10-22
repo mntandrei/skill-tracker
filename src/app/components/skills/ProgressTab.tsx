@@ -7,7 +7,7 @@ export default function ProgressTab() {
         <span className="text-3xl font-bold text-red-700">67%</span>
       </div>
       <div className="mt-5 h-5 w-full overflow-hidden rounded-full bg-zinc-200">
-        <div className="h-full w-[67%] rounded-full bg-red-600" />
+        <div className="h-full w-[67%] rounded-full bg-red-700" />
       </div>
     </div>
   );
