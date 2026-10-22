@@ -1,27 +1,60 @@
-import NavBar from "./components/mainpage/NavBar";
-import PannelSkills from "./components/skills/PannelSkills";
+import Link from "next/link";
 
 export default function Home() {
-  const version = "v0.0.4";
-  const release = "ALPHA";
-
   return (
-    <div className="mx-auto flex min-h-dvh max-w-[1070px] flex-col px-4 pb-6 md:h-dvh md:overflow-hidden md:pb-28">
-      <div className="shrink-0">
-        <NavBar />
-      </div>
-      <main className="mt-4 min-h-0 flex-1">
-        <PannelSkills />
-        <div className="fixed right-5 bottom-5 flex items-center gap-2 rounded-xl border border-gray-200 bg-white/90 px-4 py-2 shadow-md backdrop-blur-sm">
-          <span className="h-2 w-2 rounded-full bg-yellow-600" />
-          <span className="text-xs font-medium text-gray-600">
-            Skill Tracker <span className="text-red-700">{version}</span>
+    <main className="flex w-full flex-1 flex-col">
+      <section className="mx-auto mt-5 grid min-h-[535px] w-full max-w-4xl grid-cols-1 gap-4 rounded-3xl border border-zinc-200 bg-zinc-100 p-5 shadow-sm md:grid-cols-2 lg:h-[535px]">
+        <div className="flex flex-col justify-center rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm sm:p-12">
+          <span className="w-fit rounded-full bg-red-50 px-4 py-2 text-xs font-semibold text-red-700">
+            YOUR LEARNING JOURNEY
           </span>
-          <span className="rounded-md bg-yellow-50 px-2 py-0.5 text-[10px] font-semibold text-yellow-700">
-            {release}
-          </span>
+          <h1 className="mt-7 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">
+            Every skill starts
+            <span className="block text-red-700">
+              with progress.
+            </span>
+          </h1>
+          <p className="mt-5 max-w-md text-base leading-8 text-zinc-500">
+            Build better learning habits, track your skills,
+            and stay motivated throughout your journey.
+          </p>
+          <Link
+            href="/dashboard"
+            className="mt-8 inline-flex w-fit items-center justify-center rounded-xl bg-red-700 px-7 py-3 font-semibold text-white transition-colors hover:bg-red-800">
+            Get Started
+            <span className="ml-3" aria-hidden="true">
+              →
+            </span>
+          </Link>
+          <p className="mt-5 text-xs text-zinc-400">
+            Track your learning. One day at a time.
+          </p>
         </div>
-      </main>
-    </div>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-1 flex-col justify-center rounded-2xl border border-zinc-200 bg-white p-7 shadow-sm">
+            <span className="mb-5 flex size-10 items-center justify-center rounded-xl bg-red-50 text-lg font-bold text-red-700">
+              01
+            </span>
+            <h2 className="text-xl font-semibold">
+              Track your skills
+            </h2>
+            <p className="mt-3 text-sm leading-7 text-zinc-500">
+              Keep your learning goals organized in one place.
+            </p>
+          </div>
+          <div className="flex flex-1 flex-col justify-center rounded-2xl border border-zinc-200 bg-white p-7 shadow-sm">
+            <span className="mb-5 flex size-10 items-center justify-center rounded-xl bg-red-50 text-lg font-bold text-red-700">
+              02
+            </span>
+            <h2 className="text-xl font-semibold">
+              Build consistency
+            </h2>
+            <p className="mt-3 text-sm leading-7 text-zinc-500">
+              Monitor your study streak and watch your progress grow.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

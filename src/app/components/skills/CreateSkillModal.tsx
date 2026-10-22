@@ -52,7 +52,7 @@ export default function CreateSkillModal() {
             </div>
             <button
               type="submit"
-              className="w-full rounded-lg bg-red-700 py-3 font-medium text-white transition-colors hover:bg-red-800">
+              className="w-full rounded-lg bg-red-700 py-3 font-medium text-white transition-colors hover:bg-red-800 mt-5">
               Create Skill
             </button>
           </form>

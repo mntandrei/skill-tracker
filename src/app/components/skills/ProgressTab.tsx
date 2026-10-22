@@ -1,8 +1,12 @@
 export default function ProgressTab() {
+  
   return (
-    <div className="min-h-32 rounded-xl border border-gray-200 border-l-4 border-l-red-400 bg-white p-5 shadow-sm">
-      <h2 className="text-xl font-semibold">Progress: 67%</h2>
-      <div className="h-5 w-full overflow-hidden rounded-full bg-gray-200 mt-5">
+    <div className="min-h-[150px] rounded-2xl border border-zinc-200/70 bg-white p-5 shadow-sm">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-semibold text-zinc-900">Progress</h2>
+        <span className="text-3xl font-bold text-red-700">67%</span>
+      </div>
+      <div className="mt-5 h-5 w-full overflow-hidden rounded-full bg-zinc-200">
         <div className="h-full w-[67%] rounded-full bg-red-600" />
       </div>
     </div>

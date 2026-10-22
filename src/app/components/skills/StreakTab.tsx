@@ -1,18 +1,24 @@
-'use client';
-import { useState } from 'react';
+"use client";
 
+import { useState } from "react";
 
 export default function StreakTab() {
-  const [streak, setStreak] = useState<number>(1);
+  const [streak, setStreak] = useState<number>(2);
 
   return (
-    <div className="min-h-52 rounded-xl border border-gray-200 border-l-4 border-l-red-400 bg-white p-5 shadow-sm">
-      <h1 className="text-xl font-semibold">Streak</h1>
-      <p className="mt-3 text-gray-700">Current streak:</p>
-      <h1 className="text-5xl font-bold mt-2">{streak}🔥days</h1>
+    <div className="flex flex-col items-center h-full min-h-[240px] rounded-2xl border border-zinc-200/70 bg-white p-5 shadow-sm">
+      <h2 className="text-2xl font-semibold text-zinc-900">Streak</h2>
+      <div className="mt-5 flex items-center gap-3">
+        <span className="text-5xl font-bold text-red-700">{streak}</span>
+        <span className="text-3xl font-semibold text-red-700">
+          {streak === 1 ? "day" : "days"}
+        </span>
+      </div>
       <button
-        className="mt-5 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-        onClick={() => setStreak(streak + 1)}>
+        type="button"
+        onClick={() => setStreak((prev) => prev + 1)}
+        className="mt-8 inline-flex items-center gap-2 rounded-3xl bg-red-600 px-10 py-3 text-md font-semibold text-white transition hover:bg-red-700">
+        <span>🔥</span>
         Increase Streak
       </button>
     </div>
