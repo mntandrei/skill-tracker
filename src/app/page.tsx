@@ -5,10 +5,10 @@ export default function Home() {
     <main className="flex w-full flex-1 flex-col">
       <section className="mx-auto mt-5 grid min-h-[535px] w-full max-w-4xl grid-cols-1 gap-4 rounded-3xl border border-zinc-200 bg-zinc-100 p-5 shadow-sm md:grid-cols-2 lg:h-[535px]">
         <div className="flex flex-col justify-center rounded-2xl border border-zinc-200 bg-white p-8 shadow-sm sm:p-12">
-          <span className="w-fit rounded-full bg-red-50 px-4 py-2 text-xs font-semibold text-red-700">
+          <span className="w-fit rounded-full bg-red-50 px-4 py-3 text-xs font-semibold text-red-700 hover:scale-103 transition-transform duration-200">
             YOUR LEARNING JOURNEY
           </span>
-          <h1 className="mt-7 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl">
+          <h1 className="mt-4 text-4xl font-bold tracking-tight text-zinc-900 sm:text-5xl hover:scale-103 transition-transform duration-300">
             Every skill starts
             <span className="block text-red-700">
               with progress.
@@ -19,8 +19,8 @@ export default function Home() {
             and stay motivated throughout your journey.
           </p>
           <Link
-            href="/dashboard"
-            className="mt-8 inline-flex w-fit items-center justify-center rounded-xl bg-red-700 px-7 py-3 font-semibold text-white transition-colors hover:bg-red-800">
+            href="/Dashboard"
+            className="mt-8 inline-flex w-fit items-center justify-center rounded-xl bg-red-700 px-7 py-3 font-semibold text-white transition-colors hover:bg-red-800 hover:scale-103 transition-transform duration-300">
             Get Started
             <span className="ml-3" aria-hidden="true">
               →
@@ -32,10 +32,10 @@ export default function Home() {
         </div>
         <div className="flex flex-col gap-4">
           <div className="flex flex-1 flex-col justify-center rounded-2xl border border-zinc-200 bg-white p-7 shadow-sm">
-            <span className="mb-5 flex size-10 items-center justify-center rounded-xl bg-red-50 text-lg font-bold text-red-700">
+            <span className="mb-5 flex size-10 items-center justify-center rounded-xl bg-red-50 text-lg font-bold text-red-700 hover:scale-115 transition-transform duration-300">
               01
             </span>
-            <h2 className="text-xl font-semibold">
+            <h2 className="text-xl font-semibold hover:scale-103 transition-transform duration-200">
               Track your skills
             </h2>
             <p className="mt-3 text-sm leading-7 text-zinc-500">
@@ -43,10 +43,10 @@ export default function Home() {
             </p>
           </div>
           <div className="flex flex-1 flex-col justify-center rounded-2xl border border-zinc-200 bg-white p-7 shadow-sm">
-            <span className="mb-5 flex size-10 items-center justify-center rounded-xl bg-red-50 text-lg font-bold text-red-700">
+            <span className="mb-5 flex size-10 items-center justify-center rounded-xl bg-red-50 text-lg font-bold text-red-700 hover:scale-115 transition-transform duration-300">
               02
             </span>
-            <h2 className="text-xl font-semibold">
+            <h2 className="text-xl font-semibold hover:scale-103 transition-transform duration-200">
               Build consistency
             </h2>
             <p className="mt-3 text-sm leading-7 text-zinc-500">

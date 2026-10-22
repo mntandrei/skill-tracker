@@ -27,10 +27,10 @@ export default function CreateSkillModal() {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
       <div className="relative w-full max-w-md rounded-2xl border border-gray-200 bg-white p-7 shadow-2xl">
         <div className="mb-6 text-center">
-          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-2xl text-red-700">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-2xl text-red-700 hover:scale-110 transition-transform duration-300">
             +
           </div>
-          <h2 className="text-2xl font-bold text-gray-900">
+          <h2 className="text-2xl font-bold text-gray-900 hover:scale-103 transition-transform duration-300">
             Create your first skill
           </h2>
           <p className="mt-2 text-sm text-gray-500">
@@ -52,14 +52,14 @@ export default function CreateSkillModal() {
             </div>
             <button
               type="submit"
-              className="w-full rounded-lg bg-red-700 py-3 font-medium text-white transition-colors hover:bg-red-800 mt-5">
+              className="w-full rounded-lg bg-red-700 py-3 font-medium text-white transition-colors hover:bg-red-800 mt-5 hover:scale-102 transition-transform">
               Create Skill
             </button>
           </form>
           <button
             type="button"
             aria-label="Close modal"
-            className="absolute right-3 top-1 text-2xl text-gray-400 transition-colors hover:text-red-700"
+            className="absolute right-3 top-1 text-2xl text-gray-400 transition-colors hover:text-red-700 hover:scale-120 transition-transform duration-300"
             onClick={() => setIsOpen(false)}>
             &times;
           </button>

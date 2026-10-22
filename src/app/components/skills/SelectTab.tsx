@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function SelectTab() {
   const [selectedSkill, setSelectedSkill] = useState<string>("");
 
-  const skills = ["Web Development"];
+  const skills = ["Ex: Web Development"];
   const recommendedSkills = [
     "JavaScript",
     "React",
