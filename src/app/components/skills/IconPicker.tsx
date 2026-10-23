@@ -137,7 +137,6 @@ export const skillIcons = [
 }[];
 
 export type SkillIconName = (typeof skillIcons)[number]["id"];
-
 type IconPickerProps = {
   selectedIcon: SkillIconName | null;
   onSelect: (icon: SkillIconName) => void;
