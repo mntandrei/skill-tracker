@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import ThemeToggle from "../other/ThemeToggle";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -7,7 +8,6 @@ const navLinks = [
   { label: "Skills", href: "/Skills" },
   { label: "About", href: "/About" },
 ];
-
 
 export default function NavBar() {
   return (
@@ -29,15 +29,20 @@ export default function NavBar() {
             <span className="text-red-700"> Tracker</span>
           </span>
         </Link>
-        <div className="flex items-center gap-1 sm:gap-2">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-xl px-3 py-2 text-sm font-medium text-zinc-600 transition-colors duration-200 hover:bg-red-50 hover:text-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 sm:px-4">
-              {link.label}
-            </Link>
-          ))}
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="rounded-xl px-3 py-2 text-sm font-medium text-zinc-600 transition-colors duration-200 hover:bg-red-50 hover:text-red-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500 sm:px-4">
+                {link.label}
+              </Link>
+            ))}
+          </div>
+          <div className="ml-1 border-l border-zinc-200 pl-3">
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </nav>
