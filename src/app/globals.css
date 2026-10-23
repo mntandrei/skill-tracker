@@ -1,2 +1,49 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+::view-transition-image-pair(root) {
+  isolation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  animation: none;
+  z-index: 1;
+}
+
+html.theme-changing::view-transition-new(root) {
+  animation: theme-circle-reveal 650ms ease-in-out both;
+  z-index: 2;
+}
+
+@keyframes theme-circle-reveal {
+  from {
+    clip-path: circle(
+      0px at var(--reveal-x) var(--reveal-y)
+    );
+  }
+
+  to {
+    clip-path: circle(
+      var(--reveal-radius) at var(--reveal-x) var(--reveal-y)
+    );
+  }
+}
+
+html.theme-changing *,
+html.theme-changing *::before,
+html.theme-changing *::after {
+  transition: none !important;
+}

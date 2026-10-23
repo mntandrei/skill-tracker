@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -160,10 +159,10 @@ export default function IconPicker({
   );
 
   return (
-    <div className="mt-3 rounded-xl border border-zinc-200 bg-zinc-50 p-3">
+    <div className="mt-3 rounded-xl border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-950">
       <label
         htmlFor="icon-category"
-        className="text-sm font-medium text-zinc-700">
+        className="text-sm font-medium text-zinc-700 dark:text-zinc-200">
         Category
       </label>
       <select
@@ -173,7 +172,7 @@ export default function IconPicker({
           setCategory(e.target.value as IconCategory);
           setSearch("");
         }}
-        className="mt-2 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-700 outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20">
+        className="mt-2 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-700 outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200">
         {categories.map((name) => (
           <option key={name} value={name}>
             {name}
@@ -186,7 +185,7 @@ export default function IconPicker({
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Search icons..."
         aria-label="Search icons"
-        className="mt-3 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20"/>
+        className="mt-3 w-full rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm text-zinc-900 outline-none transition-colors placeholder:text-zinc-400 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder:text-zinc-500"/>
       <div
         role="group"
         aria-label="Choose a skill icon"
@@ -201,14 +200,15 @@ export default function IconPicker({
             onClick={() => onSelect(id)}
             className={`flex aspect-square cursor-pointer items-center justify-center rounded-lg border transition-colors focus-visible:outline-2 focus-visible:outline-red-500 ${
               selectedIcon === id
-                ? "border-red-600 bg-red-50 text-red-700"
-                : "border-zinc-200 bg-white text-zinc-600 hover:border-red-300 hover:text-red-700"}`}>
+                ? "border-red-600 bg-red-50 text-red-700 dark:border-red-600 dark:bg-red-950/30 dark:text-red-700"
+                : "border-zinc-200 bg-white text-zinc-600 hover:border-red-300 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-red-700 dark:hover:bg-zinc-700 dark:hover:text-red-700"
+            }`}>
             <Icon size={21} strokeWidth={1.8} />
           </button>
         ))}
       </div>
       {filteredIcons.length === 0 && (
-        <p className="py-3 text-center text-sm text-zinc-500">
+        <p className="py-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
           No icons found
         </p>
       )}
