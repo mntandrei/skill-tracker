@@ -4,6 +4,12 @@ import { Code2, Monitor, Palette, Plus, X } from "lucide-react";
 import { useState } from "react";
 import CreateSkillModal from "./CreateSkillModal";
 
+type Skill = {
+  id: string;
+  name: string;
+  icon: string;
+};
+
 export default function SkillsPage() {
   const [isOpen, setIsOpen] = useState(true);
 

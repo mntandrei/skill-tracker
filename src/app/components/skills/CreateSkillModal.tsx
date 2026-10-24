@@ -16,12 +16,24 @@ type CreateSkillModalProps = {
 
 export default function CreateSkillModal({onClose}: CreateSkillModalProps) {
   const [selectedIcon, setSelectedIcon] = useState<string>("");
+  const [iconError, setIconError] = useState<boolean>(false);
+  const [nameError, setNameError] = useState<boolean>(false);
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
     const skillName = formData.get("skill-name");
+
+    const isNameInvalid = typeof skillName !== "string" || skillName.trim() === "";
+    const isIconInvalid = !selectedIcon;
+
+    setNameError(isNameInvalid);
+    setIconError(isIconInvalid);
+
+    if (isNameInvalid || isIconInvalid) {
+      return;
+    }
 
     if (typeof skillName === "string" && skillName.trim() !== "") {
       const newSkill: Skill = {
@@ -30,7 +42,26 @@ export default function CreateSkillModal({onClose}: CreateSkillModalProps) {
         icon: selectedIcon,
       };
 
-      console.log(newSkill);
+      try {
+
+        const savedSkills = localStorage.getItem("skills");
+        const skills = savedSkills ? JSON.parse(savedSkills) : [];
+        if (!Array.isArray(skills)) {
+          throw new Error("Invalid skills data");
+        }
+        if (!skills.every((skill) =>
+          typeof skill.id === "string" &&
+          typeof skill.name === "string" &&
+          typeof skill.icon === "string"
+        )) {
+          throw new Error("Invalid skill data");
+        }
+        skills.push(newSkill);
+        localStorage.setItem("skills", JSON.stringify(skills));
+
+      } catch (error) {
+        console.error("Failed to save skill:", error);
+      }
     }
   };
 
@@ -64,9 +95,15 @@ export default function CreateSkillModal({onClose}: CreateSkillModalProps) {
                 name="skill-name"
                 id="skill-name"
                 type="text"
+                onChange={() => setNameError(false)}
                 placeholder="e.g. JavaScript"
                 className="mt-2 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-zinc-900 outline-none transition-colors placeholder:text-zinc-400 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-red-500"/>
             </div>
+            {nameError && (
+              <p className="mt-2 text-sm text-red-600">
+                Please enter a skill name
+              </p>
+            )}
             <details className="group mt-4">
               <summary className="flex w-full cursor-pointer list-none items-center justify-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm font-medium text-zinc-700 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:border-red-700 dark:hover:bg-zinc-700 dark:hover:text-red-700 [&::-webkit-details-marker]:hidden">
                 <span className="text-lg leading-none">+</span>
@@ -94,7 +131,10 @@ export default function CreateSkillModal({onClose}: CreateSkillModalProps) {
                           key={id}
                           type="button"
                           title={id}
-                          onClick={() => setSelectedIcon(id)}
+                          onClick={() => {
+                            setSelectedIcon(selectedIcon === id ? "" : id),
+                            setIconError(false)
+                          }}
                           className={`flex aspect-square cursor-pointer items-center justify-center rounded-lg border transition-colors ${
                             selectedIcon === id
                               ? "border-red-500 bg-red-50 text-red-700 dark:border-red-500 dark:bg-red-950/40 dark:text-red-400"
@@ -107,6 +147,11 @@ export default function CreateSkillModal({onClose}: CreateSkillModalProps) {
                 ))}
               </div>
             </details>
+          {iconError && (
+            <p className="mt-2 text-sm text-red-600">
+              Please select an icon
+            </p>
+            )}
             <button
               type="submit"
               className="mt-5 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-red-700 py-3 font-medium text-white transition-all hover:scale-102 hover:bg-red-800">
