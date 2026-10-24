@@ -22,8 +22,7 @@ export default function SkillsPage() {
             <span>Programming</span>
             <X
               size={15}
-              className="cursor-pointer opacity-60 transition-opacity hover:opacity-100"
-            />
+              className="cursor-pointer opacity-60 transition-opacity hover:opacity-100"/>
           </div>
           <div className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm font-medium text-zinc-800 shadow-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200">
             <Monitor size={18} />
