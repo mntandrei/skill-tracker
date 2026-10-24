@@ -10,10 +10,12 @@ type Skill = {
   icon: string;
 };
 
-export default function CreateSkillModal() {
-  const [isOpen, setIsOpen] = useState(true);
+type CreateSkillModalProps = {
+  onClose: () => void;
+};
 
-  if (!isOpen) return null;
+export default function CreateSkillModal({onClose}: CreateSkillModalProps) {
+  const [selectedIcon, setSelectedIcon] = useState<string>("");
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,7 +27,7 @@ export default function CreateSkillModal() {
       const newSkill: Skill = {
         id: crypto.randomUUID(),
         name: skillName.trim(),
-        icon: "",
+        icon: selectedIcon,
       };
 
       console.log(newSkill);
@@ -63,8 +65,7 @@ export default function CreateSkillModal() {
                 id="skill-name"
                 type="text"
                 placeholder="e.g. JavaScript"
-                className="mt-2 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-zinc-900 outline-none transition-colors placeholder:text-zinc-400 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-red-500"
-              />
+                className="mt-2 w-full rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-zinc-900 outline-none transition-colors placeholder:text-zinc-400 focus:border-red-500 focus:ring-2 focus:ring-red-500/20 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:placeholder:text-zinc-500 dark:focus:border-red-500"/>
             </div>
             <details className="group mt-4">
               <summary className="flex w-full cursor-pointer list-none items-center justify-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm font-medium text-zinc-700 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:border-red-700 dark:hover:bg-zinc-700 dark:hover:text-red-700 [&::-webkit-details-marker]:hidden">
@@ -88,13 +89,18 @@ export default function CreateSkillModal() {
                     <div className="grid grid-cols-5 gap-2 border-t border-zinc-100 p-3 sm:grid-cols-6 dark:border-zinc-800">
                       {skillIcons
                         .filter((icon) => icon.category === category)
-                        .map(({ id, Icon }) => (
-                          <div
-                            key={id}
-                            title={id}
-                            className="flex aspect-square items-center justify-center rounded-lg border border-zinc-200 bg-zinc-50 text-zinc-600 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-red-700 dark:hover:bg-zinc-700 dark:hover:text-red-700">
-                            <Icon size={21} strokeWidth={1.8} />
-                          </div>
+                        .map(({ id, Icon }) => (                     
+                        <button
+                          key={id}
+                          type="button"
+                          title={id}
+                          onClick={() => setSelectedIcon(id)}
+                          className={`flex aspect-square cursor-pointer items-center justify-center rounded-lg border transition-colors ${
+                            selectedIcon === id
+                              ? "border-red-500 bg-red-50 text-red-700 dark:border-red-500 dark:bg-red-950/40 dark:text-red-400"
+                              : "border-zinc-200 bg-zinc-50 text-zinc-600 hover:border-red-300 hover:bg-red-50 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-red-700 dark:hover:bg-zinc-700 dark:hover:text-red-700"}`}>
+                          <Icon size={21} strokeWidth={1.8} />
+                        </button>
                         ))}
                     </div>
                   </details>
@@ -112,7 +118,7 @@ export default function CreateSkillModal() {
             type="button"
             aria-label="Close modal"
             className="absolute right-3 top-1 text-2xl text-zinc-400 transition-all duration-300 hover:scale-120 hover:text-red-700 dark:text-zinc-500 dark:hover:text-red-700"
-            onClick={() => setIsOpen(false)}>
+            onClick={() => onClose()}>
             &times;
           </button>
         </div>
