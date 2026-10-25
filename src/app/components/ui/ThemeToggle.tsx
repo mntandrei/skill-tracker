@@ -14,8 +14,12 @@ export default function ThemeToggle() {
 
     if (!rect) return;
 
-    const x = rect.left + rect.width / 2;
-    const y = rect.top + rect.height / 2;
+    const zoom =
+      Number.parseFloat(
+        getComputedStyle(document.documentElement).zoom) || 1;
+
+    const x = (rect.left + rect.width / 2) / zoom;
+    const y = (rect.top + rect.height / 2) / zoom;
 
     const radius =
       Math.hypot(
