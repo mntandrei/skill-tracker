@@ -13,7 +13,7 @@ export default function PannelSkills() {
       <SelectTab />
       <StreakTab />
       <div className="md:col-span-2">
-        <ProgressTab />
+        <ProgressTab progress={7} />
       </div>
     </section>
   );
