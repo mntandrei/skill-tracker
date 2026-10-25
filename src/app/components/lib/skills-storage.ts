@@ -1,4 +1,5 @@
 import type { Skill } from "../types/skill";
+import type { SubSkill } from "../types/SubSkill";
 
 export function getSkills(): Skill[] {
   const savedSkills = localStorage.getItem("skills");
@@ -20,4 +21,28 @@ export function getSkills(): Skill[] {
 }
 export function saveSkills(skills: Skill[]): void {
   localStorage.setItem("skills", JSON.stringify(skills));
+}
+
+export function getSubSkills (): SubSkill[] {
+  const savedSubSkills = localStorage.getItem("subSkills");
+
+  if (!savedSubSkills) return [];
+
+  const subSkills: unknown = JSON.parse(savedSubSkills);
+
+  if (!Array.isArray(subSkills) || !subSkills.every((subSkill) => 
+        subSkill !== null &&
+        typeof subSkill === "object" &&
+        typeof subSkill.id === "string" &&
+        typeof subSkill.skillId === "string" &&
+        typeof subSkill.name === "string" &&
+        typeof subSkill.icon === "string" &&
+        typeof subSkill.studied === "boolean")) {
+
+    throw new Error("Invalid subSkills data");
+  }
+  return subSkills as SubSkill[];
+}
+export function saveSubSkills(subSkills: SubSkill[]): void {
+  localStorage.setItem("subSkills", JSON.stringify(subSkills));
 }
