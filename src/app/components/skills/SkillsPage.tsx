@@ -13,7 +13,7 @@ type Skill = {
 };
 
 export default function SkillsPage() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [skillToDelete, setSkillToDelete] = useState<string | null>(null);
   const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null);
@@ -25,6 +25,7 @@ export default function SkillsPage() {
 
       if (Array.isArray(parsedSkills)) {
         setSkills(parsedSkills);
+        setIsOpen(parsedSkills.length === 0);
       }
     } catch (error) {
       console.error("Failed to load skills:", error);
@@ -67,7 +68,7 @@ export default function SkillsPage() {
             className="flex h-[46px] w-[46px] shrink-0 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-800 shadow-sm transition-colors hover:border-red-300 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-red-700 dark:hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-40">
             <Plus size={20} />
           </button>
-          <span className="shrink-0 whitespace-nowrap pt-3 text-[11px] font-medium text-zinc-500 dark:text-zinc-400 sm:text-xs">
+          <span className="shrink-0 whitespace-nowrap pt-4 text-[11px] font-medium text-zinc-500 dark:text-zinc-400 sm:text-xs">
             {skills.length} / 10 skills
           </span>
         </div>
