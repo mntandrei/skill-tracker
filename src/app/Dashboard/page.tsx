@@ -1,4 +1,4 @@
-import PannelSkills from "../components/skills/PannelSkills";
+import PannelSkills from "../components/dashboard/PannelSkills";
 
 export default function Dashboard() {
   return (

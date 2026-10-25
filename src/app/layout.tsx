@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import NavBar from "./components/mainpage/NavBar";
+import NavBar from "./components/layout/NavBar";
 
 export const metadata: Metadata = {
   title: "Skill Tracker",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   },
 };
 
-const version = "v0.0.7";
+const version = "v0.0.8";
 const release = "ALPHA";
 
 export default function RootLayout({

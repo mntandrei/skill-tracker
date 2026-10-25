@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Plus, X } from "lucide-react";
-import CreateSkillModal from "../modals/CreateSkillModal";
-import DeleteSkillModal from "../modals/DeleteSkillModal";
+import CreateSkillModal from "./CreateSkillModal";
+import DeleteSkillModal from "./DeleteSkillModal";
 import { skillIcons } from "./IconPicker";
 
 type Skill = {

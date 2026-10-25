@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import ThemeToggle from "../other/ThemeToggle";
+import ThemeToggle from "../ui/ThemeToggle";
 
 const navLinks = [
   { label: "Home", href: "/" },

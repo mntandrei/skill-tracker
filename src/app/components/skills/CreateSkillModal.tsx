@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { skillIcons } from "../skills/IconPicker";
+import { skillIcons } from "./IconPicker";
 
 type Skill = {
   id: string;
