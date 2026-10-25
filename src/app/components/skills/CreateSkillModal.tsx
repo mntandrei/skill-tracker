@@ -3,12 +3,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { skillIcons } from "./IconPicker";
-
-type Skill = {
-  id: string;
-  name: string;
-  icon: string;
-};
+import type { Skill } from "@/app/components/types/skill";
 
 type CreateSkillModalProps = {
   onClose: () => void;
@@ -43,26 +38,7 @@ export default function CreateSkillModal({onClose, onCreate}: CreateSkillModalPr
         icon: selectedIcon,
       };
 
-      try {
-        const savedSkills = localStorage.getItem("skills");
-        const skills = savedSkills ? JSON.parse(savedSkills) : [];
-        if (!Array.isArray(skills)) {
-          throw new Error("Invalid skills data");
-        }
-        if (!skills.every((skill) =>
-          typeof skill.id === "string" &&
-          typeof skill.name === "string" &&
-          typeof skill.icon === "string"
-        )) {
-          throw new Error("Invalid skill data");
-        }
-        skills.push(newSkill);
-        localStorage.setItem("skills", JSON.stringify(skills));
-        onCreate(newSkill);
-        
-      } catch (error) {
-        console.error("Failed to save skill:", error);
-      }
+      onCreate(newSkill);
     }
   };
 

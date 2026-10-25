@@ -5,12 +5,8 @@ import { Plus, X } from "lucide-react";
 import CreateSkillModal from "./CreateSkillModal";
 import DeleteSkillModal from "./DeleteSkillModal";
 import { skillIcons } from "./IconPicker";
-
-type Skill = {
-  id: string;
-  name: string;
-  icon: string;
-};
+import type { Skill } from "@/app/components/types/skill";
+import { getSkills, saveSkills } from "@/app/components/lib/skills-storage";  
 
 export default function SkillsPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,18 +15,15 @@ export default function SkillsPage() {
   const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null);
 
   useEffect(() => {
-    try {
-      const savedSkills = localStorage.getItem("skills");
-      const parsedSkills = savedSkills ? JSON.parse(savedSkills) : [];
+  try {
+    const parsedSkills = getSkills();
 
-      if (Array.isArray(parsedSkills)) {
-        setSkills(parsedSkills);
-        setIsOpen(parsedSkills.length === 0);
-      }
-    } catch (error) {
-      console.error("Failed to load skills:", error);
-    }
-  }, []);
+    setSkills(parsedSkills);
+    setIsOpen(parsedSkills.length === 0);
+  } catch (error) {
+    console.error("Failed to load skills:", error);
+  }
+}, []);
 
   return (
     <>
@@ -78,6 +71,7 @@ export default function SkillsPage() {
         <CreateSkillModal onClose={() => setIsOpen(false)} onCreate={(newSkill) => {
           const updatedSkills = [...skills, newSkill];
           setSkills(updatedSkills);
+          saveSkills(updatedSkills);
           setIsOpen(false);
         }} />
       )}
@@ -87,7 +81,7 @@ export default function SkillsPage() {
           onClose={() => setSkillToDelete(null)}
           onDelete={() => {
             const updatedSkills = skills.filter(skill => skill.id !== skillToDelete);
-            localStorage.setItem("skills", JSON.stringify(updatedSkills));
+            saveSkills(updatedSkills);
             setSkills(updatedSkills);
             setSkillToDelete(null);
           }}/>
