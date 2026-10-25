@@ -7,10 +7,7 @@ export function getSkills(): Skill[] {
 
   const skills: unknown = JSON.parse(savedSkills);
 
-  if (
-    !Array.isArray(skills) ||
-    !skills.every(
-      (skill) =>
+  if (!Array.isArray(skills) || !skills.every((skill) => 
         skill !== null &&
         typeof skill === "object" &&
         typeof skill.id === "string" &&
