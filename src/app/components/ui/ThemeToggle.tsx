@@ -23,9 +23,8 @@ export default function ThemeToggle() {
 
     const radius =
       Math.hypot(
-        Math.max(x, window.innerWidth - x),
-        Math.max(y, window.innerHeight - y)
-      ) + 24;
+        Math.max(x, window.innerWidth / zoom - x),
+        Math.max(y, window.innerHeight / zoom - y)) + 24;
 
     const html = document.documentElement;
 
