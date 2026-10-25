@@ -47,3 +47,17 @@ html.theme-changing *::before,
 html.theme-changing *::after {
   transition: none !important;
 }
+
+/* Uniform desktop scale: same laptop design, 25% bigger at 1800px+.
+   At 1536px (laptop), unchanged. At 1920px, every element scales together.
+   Phones remain governed by the existing mobile Tailwind classes. */
+@media (min-width: 1800px) {
+  html {
+    zoom: 1.25;
+  }
+
+  body.min-h-screen {
+    /* Compensates for scaling 100vh to avoid an unnecessary scrollbar. */
+    min-height: 80vh;
+  }
+}

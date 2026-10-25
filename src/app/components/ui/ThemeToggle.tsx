@@ -71,7 +71,7 @@ export default function ThemeToggle() {
       onClick={handleClick}
       aria-label="Toggle theme"
       title="Toggle theme"
-      className="flex h-11 w-11 cursor-pointer md:h-10 md:w-10 min-[1800px]:h-12 min-[1800px]:w-12 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-700 transition-all duration-300 hover:scale-105 hover:border-red-300 hover:bg-red-50 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-red-300 dark:hover:bg-zinc-700 dark:hover:text-red-700">
+      className="flex h-11 w-11 cursor-pointer md:h-10 md:w-10 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-700 transition-all duration-300 hover:scale-105 hover:border-red-300 hover:bg-red-50 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:border-red-300 dark:hover:bg-zinc-700 dark:hover:text-red-700">
       <Moon
         size={20}
         strokeWidth={1.8}

@@ -33,9 +33,9 @@ export default function SkillsPage() {
 
   return (
     <>
-      <div className="flex min-h-[500px] w-full flex-1 flex-col rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-700 dark:bg-zinc-800 sm:p-4 md:h-full md:min-h-0 min-[1800px]:p-6">
-        <div className="flex min-w-0 items-start gap-2 border-b border-zinc-200 pb-3 dark:border-zinc-700 sm:pb-4 min-[1800px]:pb-5">
-          <div className="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pb-1 md:flex-wrap md:overflow-visible md:pb-0 min-[1800px]:gap-3">
+      <div className="flex min-h-[500px] w-full flex-1 flex-col rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-700 dark:bg-zinc-800 sm:p-4 md:h-full md:min-h-0">
+        <div className="flex min-w-0 items-start gap-2 border-b border-zinc-200 pb-3 dark:border-zinc-700 sm:pb-4">
+          <div className="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pb-1 md:flex-wrap md:overflow-visible md:pb-0">
           {skills.map((skill) => {
             const selectedIcon = skillIcons.find(
               (icon) => icon.id === skill.icon);
@@ -44,7 +44,7 @@ export default function SkillsPage() {
               <div
                 key={skill.id}
                 onClick={() => setSelectedSkillId(selectedSkillId === skill.id ? null : skill.id)}
-                className={`flex max-w-[235px] min-[1800px]:max-w-[300px] shrink-0 cursor-pointer items-center gap-2 rounded-xl border px-3 py-3 text-sm font-semibold transition-colors sm:gap-3 sm:px-4 min-[1800px]:px-5 min-[1800px]:py-4 min-[1800px]:text-base ${
+                className={`flex max-w-[235px] shrink-0 cursor-pointer items-center gap-2 rounded-xl border px-3 py-3 text-sm font-semibold transition-colors sm:gap-3 sm:px-4 ${
                   selectedSkillId === skill.id
                     ? "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-400"
                     : "border-zinc-200 bg-white text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
@@ -64,10 +64,10 @@ export default function SkillsPage() {
             aria-label="Add skill"
             onClick={() => setIsOpen(true)}
             disabled={skills.length >= 10}
-            className="flex h-[46px] w-[46px] shrink-0 min-[1800px]:h-[52px] min-[1800px]:w-[52px] cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-800 shadow-sm transition-colors hover:border-red-300 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-red-700 dark:hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-40">
+            className="flex h-[46px] w-[46px] shrink-0 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-800 shadow-sm transition-colors hover:border-red-300 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-red-700 dark:hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-40">
             <Plus size={20} />
           </button>
-          <span className="shrink-0 whitespace-nowrap pt-4 text-[11px] font-medium text-zinc-500 dark:text-zinc-400 sm:text-xs min-[1800px]:text-sm">
+          <span className="shrink-0 whitespace-nowrap pt-3 text-[11px] font-medium text-zinc-500 dark:text-zinc-400 sm:text-xs">
             {skills.length} / 10 skills
           </span>
         </div>
