@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   },
 };
 
-const version = "v0.0.8";
+const version = "v0.8.0";
 const release = "BETA";
 
 export default function RootLayout({
