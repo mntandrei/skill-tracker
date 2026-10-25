@@ -67,7 +67,7 @@ export default function SkillsPage() {
             className="flex h-[46px] w-[46px] shrink-0 min-[1800px]:h-[52px] min-[1800px]:w-[52px] cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-800 shadow-sm transition-colors hover:border-red-300 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-red-700 dark:hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-40">
             <Plus size={20} />
           </button>
-          <span className="shrink-0 whitespace-nowrap pt-3 text-[11px] font-medium text-zinc-500 dark:text-zinc-400 sm:text-xs min-[1800px]:text-sm">
+          <span className="shrink-0 whitespace-nowrap pt-4 text-[11px] font-medium text-zinc-500 dark:text-zinc-400 sm:text-xs min-[1800px]:text-sm">
             {skills.length} / 10 skills
           </span>
         </div>
