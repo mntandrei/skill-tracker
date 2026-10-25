@@ -188,7 +188,7 @@ export default function IconPicker({
       <div
         role="group"
         aria-label="Choose a skill icon"
-        className="mt-3 grid max-h-44 grid-cols-5 gap-2 overflow-y-auto p-1 sm:grid-cols-6">
+        className="mt-3 grid max-h-44 grid-cols-4 gap-2 min-[380px]:grid-cols-5 overflow-y-auto p-1 sm:grid-cols-6">
         {filteredIcons.map(({ id, Icon }) => (
           <button
             key={id}

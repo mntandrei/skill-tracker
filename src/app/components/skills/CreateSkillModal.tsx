@@ -71,13 +71,13 @@ export default function CreateSkillModal({onClose, onCreate}: CreateSkillModalPr
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/60 p-4">
-      <div className="relative max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-7 shadow-2xl dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-zinc-950/60 p-3 sm:items-center sm:p-4">
+      <div className="relative max-h-[calc(100dvh-1.5rem)] w-full max-w-md overflow-y-auto min-[1800px]:max-w-lg min-[1800px]:p-8 rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xl sm:max-h-[calc(100dvh-2rem)] sm:p-7 dark:border-zinc-800 dark:bg-zinc-900">
         <div className="mb-6 text-center">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-2xl text-red-700 transition-transform duration-300 hover:scale-110 dark:bg-red-950/30">
             +
           </div>
-          <h2 className="text-2xl font-bold text-zinc-900 transition-transform duration-300 hover:scale-103 dark:text-white">
+          <h2 className="text-xl font-bold text-zinc-900 transition-transform sm:text-2xl min-[1800px]:text-3xl duration-300 hover:scale-103 dark:text-white">
             Create your first skill
           </h2>
           <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
@@ -113,7 +113,7 @@ export default function CreateSkillModal({onClose, onCreate}: CreateSkillModalPr
                   size={16}
                   className="transition-transform duration-200 group-open:rotate-180"/>
               </summary>
-              <div className="mt-3 max-h-56 space-y-2 overflow-y-auto rounded-xl border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-950">
+              <div className="mt-3 max-h-44 space-y-2 overflow-y-auto sm:max-h-56 rounded-xl border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-950">
                 {categories.map((category) => (
                   <details
                     key={category}
@@ -124,7 +124,7 @@ export default function CreateSkillModal({onClose, onCreate}: CreateSkillModalPr
                         size={16}
                         className="text-zinc-400 transition-transform duration-200 group-open/category:rotate-180"/>
                     </summary>
-                    <div className="grid grid-cols-5 gap-2 border-t border-zinc-100 p-3 sm:grid-cols-6 dark:border-zinc-800">
+                    <div className="grid grid-cols-4 gap-2 border-t min-[380px]:grid-cols-5 border-zinc-100 p-3 sm:grid-cols-6 dark:border-zinc-800">
                       {skillIcons
                         .filter((icon) => icon.category === category)
                         .map(({ id, Icon }) => (                     
@@ -163,7 +163,7 @@ export default function CreateSkillModal({onClose, onCreate}: CreateSkillModalPr
           <button
             type="button"
             aria-label="Close modal"
-            className="absolute right-3 top-1 text-2xl text-zinc-400 transition-all duration-300 hover:scale-120 hover:text-red-700 dark:text-zinc-500 dark:hover:text-red-700"
+            className="absolute right-2 top-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-2xl text-zinc-400 transition-all duration-300 sm:right-3 sm:top-1 hover:scale-120 hover:text-red-700 dark:text-zinc-500 dark:hover:text-red-700"
             onClick={() => onClose()}>
             &times;
           </button>

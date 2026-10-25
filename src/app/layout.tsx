@@ -37,12 +37,12 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen bg-zinc-50 text-zinc-900 antialiased dark:bg-zinc-950 dark:text-white">
+      <body className="min-h-screen bg-zinc-50 pb-20 text-zinc-900 antialiased dark:bg-zinc-950 dark:text-white sm:pb-0">
         <NavBar />
         {children}
-        <div className="fixed right-5 bottom-5 flex items-center gap-2 rounded-xl border border-gray-200 bg-white/90 px-4 py-2 shadow-md backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/90">
+        <div className="fixed right-3 bottom-3 z-20 flex items-center gap-2 rounded-xl border border-gray-200 bg-white/90 px-3 py-2 shadow-md backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/90 sm:right-5 sm:bottom-5 sm:px-4 min-[1800px]:right-8 min-[1800px]:bottom-8 min-[1800px]:px-5 min-[1800px]:py-3">
           <span className="h-2 w-2 rounded-full bg-yellow-600" />
-          <span className="text-xs font-medium text-gray-600 dark:text-zinc-300">
+          <span className="text-xs font-medium text-gray-600 dark:text-zinc-300 min-[1800px]:text-sm">
             Skill Tracker{" "}
             <span className="text-red-700">
               {version}
