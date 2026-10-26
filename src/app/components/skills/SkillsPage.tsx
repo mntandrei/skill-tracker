@@ -7,12 +7,14 @@ import DeleteSkillModal from "./DeleteSkillModal";
 import { skillIcons } from "./IconPicker";
 import type { Skill } from "@/app/components/types/skill";
 import { getSkills, saveSkills } from "@/app/components/lib/skills-storage";  
+import CreateSubSkillModal from "./CreateSubSkillModal";
 
 export default function SkillsPage() {
   const [isOpen, setIsOpen] = useState(false);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [skillToDelete, setSkillToDelete] = useState<string | null>(null);
   const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null);
+  const [isSubSkillModalOpen, setIsSubSkillModalOpen] = useState(false);
 
   useEffect(() => {
   try {
@@ -25,10 +27,17 @@ export default function SkillsPage() {
   }
 }, []);
 
+  const selectedSkill = skills.find(
+    (skill) => skill.id === selectedSkillId
+  );
+
   return (
     <>
       <div className="flex min-h-[500px] w-full flex-1 flex-col rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-700 dark:bg-zinc-800 sm:p-4 md:h-full md:min-h-0">
         <div className="flex min-w-0 items-start gap-2 border-b border-zinc-200 pb-3 dark:border-zinc-700 sm:pb-4">
+          {isSubSkillModalOpen && (
+            <CreateSubSkillModal onClose={() => setIsSubSkillModalOpen(false)} />
+          )}
           <div className="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pb-1 md:flex-wrap md:overflow-visible md:pb-0">
           {skills.map((skill) => {
             const selectedIcon = skillIcons.find(
@@ -66,7 +75,7 @@ export default function SkillsPage() {
           </span>
         </div>
         <div className="flex min-h-0 flex-1 flex-col items-center justify-center text-center">
-          {skills.length === 0 && (
+          {skills.length === 0 && ( 
             <>
               <p className="text-base font-semibold text-zinc-700 dark:text-zinc-200">
                 No skills added yet
@@ -75,6 +84,16 @@ export default function SkillsPage() {
                 Create your first skill to start your learning journey.
               </p>
             </>
+          )}
+         {selectedSkill && (
+            <button
+              type="button"
+              onClick={() => setIsSubSkillModalOpen(true)}
+              className="flex h-36 w-36 cursor-pointer items-center justify-center rounded-full border-2 border-red-500/50 bg-red-500/10 p-4">
+              <span className="break-words text-center font-semibold text-red-700 dark:text-red-400">
+                {selectedSkill.name}
+              </span>
+            </button>
           )}
         </div>
       </div>
