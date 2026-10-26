@@ -1,5 +1,5 @@
 import type { Skill } from "../types/skill";
-import type { SubSkill } from "../../components/types/SubSkill";
+import type { SubSkill } from "../types/subskill";
 
 export function getSkills(): Skill[] {
   const savedSkills = localStorage.getItem("skills");
