@@ -182,12 +182,6 @@ export default function CreateSubSkillModal({onClose, onCreate, skillId}: Create
             )}
           </div>
           <button
-            type="button"
-            className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-green-600/40 bg-green-500/10 px-4 py-3 text-sm font-semibold text-green-700 transition-colors hover:border-green-600 hover:bg-green-500/20 dark:border-green-500/40 dark:bg-green-500/10 dark:text-green-400 dark:hover:bg-green-500/20">
-            <Check size={18} strokeWidth={2.2} />
-            Mark as Learned
-          </button>
-          <button
             type="submit"
             className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-red-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-red-800">
             <Plus size={19} strokeWidth={2} />
