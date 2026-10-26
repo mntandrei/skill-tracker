@@ -19,7 +19,7 @@ export default function Home() {
             and stay motivated throughout your journey.
           </p>
           <Link
-            href="/Dashboard"
+            href="/Skills"
             className="mt-8 inline-flex w-fit items-center justify-center rounded-xl bg-red-700 px-5 py-3 sm:px-7 font-semibold text-white transition-colors duration-300 hover:scale-103 hover:bg-red-800">
             Get Started
             <span className="ml-3" aria-hidden="true">
