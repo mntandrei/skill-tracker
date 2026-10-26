@@ -4,4 +4,8 @@ export type SubSkill = {
   name: string;
   icon: string;
   studied: boolean;
+  parentSubSkillId: string | null;
+  description: string;
+  x: number;
+  y: number;
 };
