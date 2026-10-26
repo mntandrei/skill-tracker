@@ -22,6 +22,10 @@ export default function SkillsPage() {
 
     setSkills(parsedSkills);
     setIsOpen(parsedSkills.length === 0);
+    const savedID = localStorage.getItem("selectedSkillId");
+    if (savedID) {
+      setSelectedSkillId(savedID);
+    }
   } catch (error) {
     console.error("Failed to load skills:", error);
   }
@@ -43,7 +47,16 @@ export default function SkillsPage() {
             return (
               <div
                 key={skill.id}
-                onClick={() => setSelectedSkillId(selectedSkillId === skill.id ? null : skill.id)}
+                onClick={() => {
+                  const nextId = selectedSkillId === skill.id ? null : skill.id;
+                  setSelectedSkillId(nextId);
+
+                  if (nextId !== null) {
+                    localStorage.setItem("selectedSkillId", nextId);
+                  } else {
+                    localStorage.removeItem("selectedSkillId");
+                  }
+                }}
                 className={`flex max-w-[235px] shrink-0 cursor-pointer items-center gap-2 rounded-xl border px-3 py-3 text-sm font-semibold transition-colors sm:gap-3 sm:px-4 ${
                   selectedSkillId === skill.id
                     ? "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-400"
@@ -81,6 +94,16 @@ export default function SkillsPage() {
                 Create your first skill to start your learning journey.
               </p>
             </>
+          )}
+          {skills.length > 0 && !selectedSkill && (
+            <div className="text-center">
+              <p className="text-base font-semibold text-zinc-700 dark:text-zinc-200">
+                No skill selected yet
+              </p>
+              <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+                Choose a skill from above and let's start learning something new!
+              </p>
+            </div>
           )}
          {selectedSkill && (
             <button
