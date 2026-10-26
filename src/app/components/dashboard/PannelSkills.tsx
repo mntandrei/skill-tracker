@@ -10,6 +10,7 @@ import { getSubSkills } from "@/app/components/lib/skills-storage";
 export default function PannelSkills() {
   const [selectedSkillId, setSelectedSkillId] = useState<string>("");
   const [subSkills, setSubSkills] = useState<SubSkill[]>([]);
+
   useEffect(() => {
     try {
       const savedSubSkills = getSubSkills();
@@ -18,6 +19,13 @@ export default function PannelSkills() {
       console.error("Failed to fetch subskills:", error);
     }
   }, []);
+
+  useEffect(() => {
+    const savedId = localStorage.getItem("selectedSkillId");
+    if (savedId) {
+      setSelectedSkillId(savedId);
+    }
+}, []);
 
   const skillSubSkills = subSkills.filter((subSkill) => 
     subSkill.skillId === selectedSkillId

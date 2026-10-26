@@ -28,7 +28,9 @@ export default function SelectTab({ selectedSkillId, setSelectedSkillId }: Selec
       </h2>
       <select
         aria-label="Select a skill"
-        onChange={(e) => setSelectedSkillId(e.target.value)}
+        onChange={(e) => {const id = e.target.value;
+          setSelectedSkillId(id);
+          localStorage.setItem("selectedSkillId", id);}}
         value={selectedSkillId}
         className="mt-2 w-full rounded-xl border border-transparent bg-zinc-100 px-3 py-2.5 text-sm text-zinc-700 outline-none transition-colors focus:border-red-500 focus:ring-2 focus:ring-red-500/20 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:focus:border-red-500">
         <option value="">Choose a skill</option>
