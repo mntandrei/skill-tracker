@@ -4,6 +4,9 @@ import { useState } from "react";
 
 export default function StreakTab() {
   const [streak, setStreak] = useState<number>(0);
+  const [lastActivityAt, setLastActivityAt] = useState<number | null>(null);
+
+  const remaining = lastActivityAt === null ? 0 : Math.max(0, 24 * 60 * 60 * 1000 - (Date.now() - lastActivityAt));
 
   return (
     <div className="flex h-full min-h-[200px] flex-col md:min-h-[240px] items-center rounded-2xl border border-zinc-200/70 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">

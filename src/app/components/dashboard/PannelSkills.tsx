@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import SelectTab from "./SelectTab";
 import StreakTab from "./StreakTab";
 import ProgressTab from "./ProgressTab";
-import type { SubSkill } from "../types/SubSkill";
+import type { SubSkill } from "../../components/types/SubSkill";
 import { getSubSkills } from "@/app/components/lib/skills-storage";
 
 export default function PannelSkills() {
