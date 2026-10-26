@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   },
 };
 
-const version = "v0.9.0";
-const release = "BETA";
+const version = "v1.0.0";
+const release = "SOON RELEASED";
 
 export default function RootLayout({
   children,
@@ -41,14 +41,14 @@ export default function RootLayout({
         <NavBar />
         {children}
         <div className="fixed right-3 bottom-3 z-20 flex items-center gap-2 rounded-xl border border-gray-200 bg-white/90 px-3 py-2 shadow-md backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-900/90 sm:right-5 sm:bottom-5 sm:px-4">
-          <span className="h-2 w-2 rounded-full bg-yellow-600" />
+          <span className="h-2 w-2 rounded-full bg-green-600" />
           <span className="text-xs font-medium text-gray-600 dark:text-zinc-300">
             Skill Tracker{" "}
             <span className="text-red-700">
               {version}
             </span>
           </span>
-          <span className="rounded-md bg-yellow-50 px-2 py-0.5 text-[10px] font-semibold text-yellow-700 dark:bg-yellow-950/40 dark:text-yellow-500">
+          <span className="rounded-md bg-green-50 px-2 py-0.5 text-[10px] font-semibold text-green-700 dark:bg-green-950/40 dark:text-green-500">
             {release}
           </span>
         </div>
