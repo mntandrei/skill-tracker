@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -33,15 +32,12 @@ export default function SubSkillModal({
     <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-zinc-950/60 p-3 sm:items-center sm:p-4">
       <div className="relative max-h-[calc(100dvh-1.5rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xl sm:max-h-[calc(100dvh-2rem)] sm:p-7 dark:border-zinc-800 dark:bg-zinc-900">
 
-        {/* Header */}
         <div className="mb-6 text-center">
           <div
             className={`mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl ${
               subSkill.studied
                 ? "bg-green-500/10 text-green-700 dark:text-green-400"
-                : "bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400"
-            }`}
-          >
+                : "bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400"}`}>
             {Icon && <Icon size={25} strokeWidth={1.8} />}
           </div>
 
@@ -54,15 +50,13 @@ export default function SubSkillModal({
           </p>
         </div>
 
-        {/* Learning status */}
         <div className="mb-5 flex justify-center">
           <div
             className={`inline-flex w-fit items-center gap-2 whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-semibold ${
               subSkill.studied
                 ? "border-green-500/30 bg-green-500/10 text-green-700 dark:text-green-400"
                 : "border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-400"
-            }`}
-          >
+            }`}>
             <span
               className={`h-2 w-2 shrink-0 rounded-full ${
                 subSkill.studied ? "bg-green-500" : "bg-red-500"
@@ -75,7 +69,6 @@ export default function SubSkillModal({
           </div>
         </div>
 
-        {/* Description */}
         <div className="mb-5">
           <h3 className="mb-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
             Description
@@ -90,15 +83,13 @@ export default function SubSkillModal({
           </div>
         </div>
 
-        {/* Actions */}
         {!isConfirmingDelete ? (
           <div className="space-y-3">
             <button
               type="button"
               onClick={onMarkLearned}
               disabled={subSkill.studied}
-              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-green-600/40 bg-green-500/10 px-4 py-3 text-sm font-semibold text-green-700 transition-colors hover:border-green-600 hover:bg-green-500/20 disabled:cursor-default disabled:opacity-60 dark:border-green-500/40 dark:bg-green-500/10 dark:text-green-400 dark:hover:bg-green-500/20"
-            >
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-green-600/40 bg-green-500/10 px-4 py-3 text-sm font-semibold text-green-700 transition-colors hover:border-green-600 hover:bg-green-500/20 disabled:cursor-default disabled:opacity-60 dark:border-green-500/40 dark:bg-green-500/10 dark:text-green-400 dark:hover:bg-green-500/20">
               <Check size={18} strokeWidth={2.2} />
               {subSkill.studied
                 ? "Already Learned"
@@ -108,8 +99,7 @@ export default function SubSkillModal({
             <button
               type="button"
               onClick={onCreateChild}
-              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-red-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-red-800"
-            >
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-red-700 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-red-800">
               <Plus size={19} strokeWidth={2} />
               Create Child Subskill
             </button>
@@ -117,8 +107,7 @@ export default function SubSkillModal({
             <button
               type="button"
               onClick={() => setIsConfirmingDelete(true)}
-              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-red-500/30 bg-red-500/5 px-4 py-3 text-sm font-semibold text-red-700 transition-colors hover:bg-red-500/10 dark:border-red-500/30 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40"
-            >
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-red-500/30 bg-red-500/5 px-4 py-3 text-sm font-semibold text-red-700 transition-colors hover:bg-red-500/10 dark:border-red-500/30 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40">
               <Trash2 size={17} strokeWidth={1.8} />
               Delete Subskill
             </button>
@@ -140,16 +129,14 @@ export default function SubSkillModal({
               <button
                 type="button"
                 onClick={() => setIsConfirmingDelete(false)}
-                className="min-w-0 flex-1 cursor-pointer rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
-              >
+                className="min-w-0 flex-1 cursor-pointer rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700">
                 Cancel
               </button>
 
               <button
                 type="button"
                 onClick={onDelete}
-                className="flex min-w-0 flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg bg-red-700 px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-red-800"
-              >
+                className="flex min-w-0 flex-1 cursor-pointer items-center justify-center gap-2 rounded-lg bg-red-700 px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-red-800">
                 <Trash2 size={16} />
                 Delete
               </button>
@@ -157,13 +144,11 @@ export default function SubSkillModal({
           </div>
         )}
 
-        {/* Close */}
         <button
           type="button"
           aria-label="Close modal"
           onClick={onClose}
-          className="absolute right-2 top-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-zinc-400 transition-all duration-300 hover:scale-110 hover:text-red-700 sm:right-3 sm:top-3 dark:text-zinc-500 dark:hover:text-red-400"
-        >
+          className="absolute right-2 top-2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg text-zinc-400 transition-all duration-300 hover:scale-110 hover:text-red-700 sm:right-3 sm:top-3 dark:text-zinc-500 dark:hover:text-red-400">
           <X size={21} />
         </button>
       </div>
