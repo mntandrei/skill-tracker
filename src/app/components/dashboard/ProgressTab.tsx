@@ -14,7 +14,7 @@ export default function ProgressTab({ progress }: ProgressTabProps) {
           Progress 
         </h2>
         <span className="text-2xl font-bold sm:text-3xl text-red-700">
-          {progress} %
+          {Math.round(progress)} %
         </span>
       </div>
       <div className="mt-5 h-5 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-700">
