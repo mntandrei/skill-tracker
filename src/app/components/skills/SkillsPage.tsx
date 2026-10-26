@@ -35,9 +35,6 @@ export default function SkillsPage() {
     <>
       <div className="flex min-h-[500px] w-full flex-1 flex-col rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-700 dark:bg-zinc-800 sm:p-4 md:h-full md:min-h-0">
         <div className="flex min-w-0 items-start gap-2 border-b border-zinc-200 pb-3 dark:border-zinc-700 sm:pb-4">
-          {isSubSkillModalOpen && (
-            <CreateSubSkillModal onClose={() => setIsSubSkillModalOpen(false)} />
-          )}
           <div className="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pb-1 md:flex-wrap md:overflow-visible md:pb-0">
           {skills.map((skill) => {
             const selectedIcon = skillIcons.find(
@@ -114,7 +111,12 @@ export default function SkillsPage() {
             saveSkills(updatedSkills);
             setSkills(updatedSkills);
             setSkillToDelete(null);
-          }}/>
+          }}/>   
+      )}
+      {isSubSkillModalOpen && (
+        <CreateSubSkillModal
+        onClose={() => setIsSubSkillModalOpen(false)}
+          />
       )}
     </>
   );
