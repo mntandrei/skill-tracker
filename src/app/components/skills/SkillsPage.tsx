@@ -84,7 +84,8 @@ export default function SkillsPage() {
             {skills.length} / 10 skills
           </span>
         </div>
-        <div className="flex min-h-0 flex-1 flex-col items-center justify-center text-center">
+       <div
+        className={`flex min-h-0 flex-1 flex-col items-center overflow-y-auto text-center ${selectedSkill ? "justify-start" : "justify-center"}`}>
           {skills.length === 0 && ( 
             <>
               <p className="text-base font-semibold text-zinc-700 dark:text-zinc-200">
@@ -109,7 +110,7 @@ export default function SkillsPage() {
             <button
               type="button"
               onClick={() => setIsSubSkillModalOpen(true)}
-              className="flex h-36 w-36 cursor-pointer items-center justify-center rounded-full border-2 border-red-500/50 bg-red-500/10 p-4">
+              className="flex h-28 w-28 mt-1.5 cursor-pointer items-center justify-center rounded-full border-2 border-red-500/50 bg-red-500/10 p-4">
               <span className="break-words text-center font-semibold text-red-700 dark:text-red-400">
                 {selectedSkill.name}
               </span>
