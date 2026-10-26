@@ -26,8 +26,7 @@ export default function CreateSubSkillModal({
   )?.Icon;
 
   const handleSubmit = (
-    e: React.SubmitEvent<HTMLFormElement>
-  ) => {
+    e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
@@ -46,7 +45,7 @@ export default function CreateSubSkillModal({
       return;
     }
 
-    
+    //soon
   };
 
   return (
