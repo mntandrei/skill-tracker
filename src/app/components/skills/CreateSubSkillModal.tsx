@@ -1,17 +1,18 @@
-
 "use client";
 
 import { useState } from "react";
 import { Check, ChevronDown, Plus, X } from "lucide-react";
 import { skillIcons } from "./IconPicker";
+import type { SubSkill } from "@/app/components/types/subskill";
 
 type CreateSubSkillModalProps = {
   onClose: () => void;
+  onCreate: (subSkill: SubSkill) => void;
+  skillId: string;
 };
 
-export default function CreateSubSkillModal({
-  onClose,
-}: CreateSubSkillModalProps) {
+export default function CreateSubSkillModal({onClose, onCreate, skillId}: CreateSubSkillModalProps) {
+
   const [description, setDescription] = useState<string>("");
   const [selectedIcon, setSelectedIcon] = useState<string>("");
   const [nameError, setNameError] = useState<boolean>(false);
@@ -43,9 +44,23 @@ export default function CreateSubSkillModal({
 
     if (isNameInvalid || isIconInvalid) {
       return;
+      
     }
 
-    //soon
+    if (typeof subskillName !== "string") return;
+    const newSubSkill: SubSkill = {
+      id: crypto.randomUUID(),
+      skillId: skillId,
+      parentSubSkillId: null,
+      name: subskillName.trim(),
+      description: description.trim(),
+      icon: selectedIcon,
+      studied: false,
+      x: 0,
+      y: 0,
+    };
+
+    onCreate(newSubSkill);
   };
 
   return (

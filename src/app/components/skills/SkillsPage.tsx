@@ -6,8 +6,9 @@ import CreateSkillModal from "./CreateSkillModal";
 import DeleteSkillModal from "./DeleteSkillModal";
 import { skillIcons } from "./IconPicker";
 import type { Skill } from "@/app/components/types/skill";
-import { getSkills, saveSkills } from "@/app/components/lib/skills-storage";  
+import { getSkills, saveSkills, getSubSkills, saveSubSkills } from "@/app/components/lib/skills-storage";  
 import CreateSubSkillModal from "./CreateSubSkillModal";
+import type { SubSkill } from "@/app/components/types/subskill";
 
 export default function SkillsPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,17 +16,23 @@ export default function SkillsPage() {
   const [skillToDelete, setSkillToDelete] = useState<string | null>(null);
   const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null);
   const [isSubSkillModalOpen, setIsSubSkillModalOpen] = useState(false);
+  const [subSkills, setSubSkills] = useState<SubSkill[]>([]);
 
   useEffect(() => {
   try {
     const parsedSkills = getSkills();
+    
+    const parsedSubSkills = getSubSkills();
+    setSubSkills(parsedSubSkills);
 
     setSkills(parsedSkills);
     setIsOpen(parsedSkills.length === 0);
+
     const savedID = localStorage.getItem("selectedSkillId");
     if (savedID) {
       setSelectedSkillId(savedID);
     }
+
   } catch (error) {
     console.error("Failed to load skills:", error);
   }
@@ -118,13 +125,25 @@ export default function SkillsPage() {
           )}
         </div>
       </div>
+      <div className="mt-12 flex flex-wrap justify-center gap-6">
+        {subSkills
+          .filter((subSkill) => subSkill.skillId === selectedSkillId && subSkill.parentSubSkillId === null).map((subSkill) => (
+            <div
+              key={subSkill.id}
+              className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-2 p-2 text-center ${
+                subSkill.studied ? "border-green-500/50 bg-green-500/10" : "border-red-500/50 bg-red-500/10"}`}>
+              <span className="break-words text-xs font-medium text-red-700 dark:text-red-400">
+                {subSkill.name}
+              </span>
+            </div>
+          ))}
+      </div>
       {isOpen && (
         <CreateSkillModal onClose={() => setIsOpen(false)} onCreate={(newSkill) => {
           const updatedSkills = [...skills, newSkill];
           setSkills(updatedSkills);
           saveSkills(updatedSkills);
-          setIsOpen(false);
-        }} />
+          setIsOpen(false);}}/>
       )}
       {skillToDelete && (
         <DeleteSkillModal
@@ -137,10 +156,16 @@ export default function SkillsPage() {
             setSkillToDelete(null);
           }}/>   
       )}
-      {isSubSkillModalOpen && (
+      {isSubSkillModalOpen && selectedSkillId && (
         <CreateSubSkillModal
-        onClose={() => setIsSubSkillModalOpen(false)}
-          />
+          skillId={selectedSkillId}
+          onClose={() => setIsSubSkillModalOpen(false)}
+          onCreate={(subSkill) => {
+          const updatedSubSkills = [...subSkills, subSkill];
+          setSubSkills(updatedSubSkills);
+          saveSubSkills(updatedSubSkills);
+          setIsSubSkillModalOpen(false);
+          }}/>
       )}
     </>
   );
