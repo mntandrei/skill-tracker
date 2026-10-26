@@ -65,7 +65,18 @@ export default function SkillsPage() {
             {skills.length} / 10 skills
           </span>
         </div>
-        <div className="min-h-0 flex-1" />
+        <div className="flex min-h-0 flex-1 flex-col items-center justify-center text-center">
+          {skills.length === 0 && (
+            <>
+              <p className="text-base font-semibold text-zinc-700 dark:text-zinc-200">
+                No skills added yet
+              </p>
+              <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+                Create your first skill to start your learning journey.
+              </p>
+            </>
+          )}
+        </div>
       </div>
       {isOpen && (
         <CreateSkillModal onClose={() => setIsOpen(false)} onCreate={(newSkill) => {
