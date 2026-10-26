@@ -9,6 +9,7 @@ import { skillIcons } from "./IconPicker";
 import type { Skill } from "@/app/components/types/skill";
 import type { SubSkill } from "@/app/components/types/subskill";
 import {getSkills, saveSkills, getSubSkills, saveSubSkills} from "@/app/components/lib/skills-storage";
+import SubSkillModal from "./SubSkillModal";
 
 export default function SkillsPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +18,8 @@ export default function SkillsPage() {
   const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null);
   const [isSubSkillModalOpen, setIsSubSkillModalOpen] = useState(false);
   const [subSkills, setSubSkills] = useState<SubSkill[]>([]);
+  const [selectedSubSkillId, setSelectedSubSkillId] = useState<string | null>(null);
+  const [createSubSkillParentId, setCreateSubSkillParentId] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -39,6 +42,9 @@ export default function SkillsPage() {
 
   const selectedSkill = skills.find(
     (skill) => skill.id === selectedSkillId);
+
+    const selectedSubSkill = subSkills.find(
+      (subSkill) => subSkill.id === selectedSubSkillId);
 
   return (
     <>
@@ -114,8 +120,8 @@ export default function SkillsPage() {
           {selectedSkill && (
             <button
               type="button"
-              onClick={() => setIsSubSkillModalOpen(true)}
-              className="mt-1.5 flex h-28 w-28 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-red-500/50 bg-red-500/10 p-4">
+            onClick={() => {setCreateSubSkillParentId(null); setIsSubSkillModalOpen(true);}}
+                        className="mt-1.5 flex h-28 w-28 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-red-500/50 bg-red-500/10 p-4">
               <span className="break-words text-center font-semibold text-red-700 dark:text-red-400">
                 {selectedSkill.name}
               </span>
@@ -127,15 +133,23 @@ export default function SkillsPage() {
                 .filter(
                   (subSkill) =>
                     subSkill.skillId === selectedSkillId &&
-                    subSkill.parentSubSkillId === null).map((subSkill) => (
-                  <div
+                    subSkill.parentSubSkillId === null
+                )
+                .map((subSkill) => (
+                  <button
+                    type="button"
                     key={subSkill.id}
-                    className={`flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-2 p-2 text-center ${
-                      subSkill.studied ? "border-green-500/50 bg-green-500/10": "border-red-500/50 bg-red-500/10"}`}>
+                    onClick={() => setSelectedSubSkillId(subSkill.id)}
+                    className={`flex h-20 w-20 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 p-2 text-center ${
+                      subSkill.studied
+                        ? "border-green-500/50 bg-green-500/10"
+                        : "border-red-500/50 bg-red-500/10"
+                    }`}
+                  >
                     <span className="break-words text-xs font-medium text-red-700 dark:text-red-400">
                       {subSkill.name}
                     </span>
-                  </div>
+                  </button>
                 ))}
             </div>
           )}
@@ -178,6 +192,58 @@ export default function SkillsPage() {
             setSubSkills(updatedSubSkills);
             saveSubSkills(updatedSubSkills);
             setIsSubSkillModalOpen(false);
+          }}
+        />
+      )}
+      {selectedSubSkill && (
+        <SubSkillModal
+          subSkill={selectedSubSkill}
+          onClose={() => setSelectedSubSkillId(null)}
+
+          onMarkLearned={() => {
+            const updatedSubSkills = subSkills.map((item) =>
+              item.id === selectedSubSkill.id
+                ? { ...item, studied: true }
+                : item
+            );
+
+            setSubSkills(updatedSubSkills);
+            saveSubSkills(updatedSubSkills);
+          }}
+
+          onCreateChild={() => {
+            setCreateSubSkillParentId(selectedSubSkill.id);
+            setSelectedSubSkillId(null);
+            setIsSubSkillModalOpen(true);
+          }}
+
+          onDelete={() => {
+            const idsToDelete = new Set([selectedSubSkill.id]);
+
+            let foundMore = true;
+
+            while (foundMore) {
+              foundMore = false;
+
+              for (const item of subSkills) {
+                if (
+                  item.parentSubSkillId !== null &&
+                  idsToDelete.has(item.parentSubSkillId) &&
+                  !idsToDelete.has(item.id)
+                ) {
+                  idsToDelete.add(item.id);
+                  foundMore = true;
+                }
+              }
+            }
+
+            const updatedSubSkills = subSkills.filter(
+              (item) => !idsToDelete.has(item.id)
+            );
+
+            setSubSkills(updatedSubSkills);
+            saveSubSkills(updatedSubSkills);
+            setSelectedSubSkillId(null);
           }}
         />
       )}
