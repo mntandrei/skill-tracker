@@ -9,9 +9,10 @@ type CreateSubSkillModalProps = {
   onClose: () => void;
   onCreate: (subSkill: SubSkill) => void;
   skillId: string;
+  parentSubSkillId?: string | null;
 };
 
-export default function CreateSubSkillModal({onClose, onCreate, skillId}: CreateSubSkillModalProps) {
+export default function CreateSubSkillModal({onClose, onCreate, skillId, parentSubSkillId}: CreateSubSkillModalProps) {
 
   const [description, setDescription] = useState<string>("");
   const [selectedIcon, setSelectedIcon] = useState<string>("");
@@ -51,7 +52,7 @@ export default function CreateSubSkillModal({onClose, onCreate, skillId}: Create
     const newSubSkill: SubSkill = {
       id: crypto.randomUUID(),
       skillId: skillId,
-      parentSubSkillId: null,
+      parentSubSkillId: parentSubSkillId ?? null,
       name: subskillName.trim(),
       description: description.trim(),
       icon: selectedIcon,
