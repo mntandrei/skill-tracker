@@ -12,7 +12,7 @@ import { useSkillsPage } from "./useSkillsPage";
 
 export default function SkillsPage() {
   const {
-    editingItem, setEditingItem, isOpen, setIsOpen, skills, skillToDelete, setSkillToDelete, selectedSkillId, selectedSubSkillId, setSelectedSubSkillId, isSubSkillModalOpen, createSubSkillParentId, selectedSkill, selectedSubSkill, currentSubSkills, itemToEdit, handleSelectSkill, handleCreateRoot, handleCreateChildSubSkill, handleCloseCreateSubSkill, handleCreateSkill, handleCreateSubSkill, handleSaveDetails, handlePositionChange, handleMarkLearned, handleDeleteSubSkill, handleDeleteSkill
+    editingItem, setEditingItem, isOpen, setIsOpen, skills, skillToDelete, setSkillToDelete, selectedSkillId, setSelectedSubSkillId, isSubSkillModalOpen, createSubSkillParentId, selectedSkill, selectedSubSkill, currentSubSkills, itemToEdit, handleSelectSkill, handleCreateRoot, handleCreateChildSubSkill, handleCloseCreateSubSkill, handleCreateSkill, handleCreateSubSkill, handleSaveDetails, handlePositionChange, handleMarkLearned, handleDeleteSubSkill, handleDeleteSkill
   } = useSkillsPage();
 
   return (
@@ -105,7 +105,7 @@ export default function SkillsPage() {
               </p>
 
               <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-                Choose a skill from above and let's start learning something new!
+                Choose a skill from above and let&apos;s start learning something new!
               </p>
             </div>
           )}
