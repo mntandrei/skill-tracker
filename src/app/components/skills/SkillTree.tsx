@@ -258,10 +258,6 @@ export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onE
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    setDragPositions({});
-  }, [skill.id]);
-
   const layout = useMemo(
     () => createLayout(subSkills, viewportWidth),
     [subSkills, viewportWidth]
