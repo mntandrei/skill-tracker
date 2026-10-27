@@ -5,27 +5,23 @@ export default function About() {
   return (
     <main className="flex w-full flex-1 flex-col">
       <section className="mx-auto mt-4 w-[calc(100%-2rem)] max-w-4xl rounded-3xl border border-zinc-200 bg-zinc-100 p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:mt-5 sm:p-5">
-
         <div className="flex flex-col gap-4">
-
-          {/* Developer Introduction */}
           <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800 sm:p-7">
-
             <div className="mb-5 flex items-center justify-between">
-              <div className="flex size-12 items-center justify-center rounded-xl bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-400">
+              <div className="flex size-12 items-center justify-center rounded-xl bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-400 transition-transform duration-300 hover:scale-110">
                 <Code2 size={25} strokeWidth={1.8} />
               </div>
 
-              <span className="rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-medium text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-400">
+              <span className="rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-medium text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-400 transition-transform duration-300 hover:scale-105 hover:text-red-300">
                 Aspiring Front-End Developer
               </span>
             </div>
 
-            <p className="text-xs font-semibold uppercase tracking-widest text-red-700 dark:text-red-400">
+            <p className="text-xs font-semibold uppercase tracking-widest text-red-700 dark:text-red-400 duration-300 hover:scale-102 hover:text-red-800 dark:hover:text-red-300">
               The person behind Skill Tracker
             </p>
 
-            <h1 className="mt-2 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-3xl">
+            <h1 className="mt-2 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-3xl transition-transform duration-300 hover:scale-102">
               Hey, I'm Muntianu Andrei.
             </h1>
 
@@ -48,7 +44,7 @@ export default function About() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Visit Muntianu Andrei's GitHub profile"
-              className="mt-6 inline-flex items-center justify-center gap-2.5 rounded-xl bg-red-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-red-800">
+              className="mt-6 inline-flex items-center justify-center gap-2.5 rounded-xl bg-red-700 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-red-800 transition-transform duration-300 hover:scale-103">
               <FaGithub size={19} />
 
               <span>Check out my GitHub</span>
@@ -61,13 +57,13 @@ export default function About() {
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div className="flex flex-col rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800 sm:p-6">
-              <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-400">
+              <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-400 transition-transform duration-300 hover:scale-110">
                 <BookOpen
                   size={21}
                   strokeWidth={1.8}/>
               </div>
 
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">
+              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white transition-transform duration-300 hover:scale-103">
                 What I've Learned
               </h2>
 
@@ -86,14 +82,14 @@ export default function About() {
 
             <div className="flex flex-col rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800 sm:p-6">
 
-              <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-400">
+              <div className="mb-4 flex size-10 items-center justify-center rounded-xl bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-400 transition-transform duration-300 hover:scale-110">
                 <Lightbulb
                   size={21}
                   strokeWidth={1.8}
                 />
               </div>
 
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">
+              <h2 className="text-lg font-semibold text-zinc-900 dark:text-white transition-transform duration-300 hover:scale-103">
                 Learning with AI
               </h2>
 
@@ -114,7 +110,7 @@ export default function About() {
           <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800 sm:p-6">
 
             <div className="flex items-start gap-4">
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-400">
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-red-50 text-red-700 dark:bg-red-950/40 dark:text-red-400 transition-transform duration-300 hover:scale-110">
                 <Target
                   size={21}
                   strokeWidth={1.8}
@@ -122,7 +118,7 @@ export default function About() {
               </div>
 
               <div className="min-w-0">
-                <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">
+                <h2 className="text-lg font-semibold text-zinc-900 dark:text-white duration-300 hover:scale-101">
                   What's Next?
                 </h2>
 
@@ -133,7 +129,7 @@ export default function About() {
                   build more projects, and gain confidence in writing code independently.
                 </p>
 
-                <p className="mt-3 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+                <p className="mt-3 text-sm font-medium text-zinc-800 dark:text-zinc-200 transition-transform duration-300 hover:scale-101">
                   This is just the beginning.
                 </p>
               </div>
