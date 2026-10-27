@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, X } from "lucide-react";
+import { Pencil, Plus, X } from "lucide-react";
 import CreateSkillModal from "./CreateSkillModal";
 import DeleteSkillModal from "./DeleteSkillModal";
 import CreateSubSkillModal from "./CreateSubSkillModal";
 import SubSkillModal from "./SubSkillModal";
 import SkillTree from "./SkillTree";
+import EditSkillModal, { type SkillDetails } from "./EditSkillModal";
 import { skillIcons } from "./IconPicker";
 import type { Skill } from "@/app/components/types/skill";
 import type { SubSkill } from "@/app/components/types/subskill";
@@ -14,6 +15,7 @@ import { getSkills, saveSkills, getSubSkills, saveSubSkills } from "@/app/compon
 import { increaseStreak } from "@/app/components/lib/streak-storage";
 
 export default function SkillsPage() {
+  const [editingItem, setEditingItem] = useState<{ kind: "skill" | "subskill"; id: string } | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [subSkills, setSubSkills] = useState<SubSkill[]>([]);
@@ -57,6 +59,30 @@ export default function SkillsPage() {
   const currentSubSkills = subSkills.filter(
     (subSkill) => subSkill.skillId === selectedSkillId
   );
+
+  const itemToEdit = editingItem?.kind === "skill"
+    ? skills.find((item) => item.id === editingItem.id)
+    : subSkills.find((item) => item.id === editingItem?.id);
+
+  function handleSaveDetails(details: SkillDetails) {
+    if (!editingItem) return;
+
+    if (editingItem.kind === "skill") {
+      const updatedSkills = skills.map((item) =>
+        item.id === editingItem.id ? { ...item, ...details } : item
+      );
+      saveSkills(updatedSkills);
+      setSkills(updatedSkills);
+    } else {
+      const updatedSubSkills = subSkills.map((item) =>
+        item.id === editingItem.id ? { ...item, ...details } : item
+      );
+      saveSubSkills(updatedSubSkills);
+      setSubSkills(updatedSubSkills);
+    }
+
+    setEditingItem(null);
+  }
 
   function handlePositionChange(id: string, x: number, y: number) {
     const updatedSubSkills = subSkills.map((item) =>
@@ -166,6 +192,17 @@ export default function SkillsPage() {
                     {skill.name}
                   </span>
 
+                  <button
+                    type="button"
+                    aria-label={`Edit ${skill.name}`}
+                    title="Edit skill"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      setEditingItem({ kind: "skill", id: skill.id });
+                    }}
+                    className="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md opacity-60 transition-opacity hover:opacity-100 focus-visible:opacity-100">
+                    <Pencil size={15} />
+                  </button>
                   <X
                     size={15}
                     className="size-8 shrink-0 cursor-pointer rounded-md p-1.5 opacity-60 transition-opacity hover:opacity-100 sm:size-[15px] sm:p-0"
@@ -225,6 +262,7 @@ export default function SkillsPage() {
               skill={selectedSkill}
               subSkills={currentSubSkills}
               onSelect={setSelectedSubSkillId}
+              onEdit={() => setEditingItem({ kind: "skill", id: selectedSkill.id })}
               onCreateRoot={() => {
                 setCreateSubSkillParentId(null);
                 setIsSubSkillModalOpen(true);
@@ -307,12 +345,13 @@ export default function SkillsPage() {
           }}/>
       )}
 
-      {selectedSubSkill && (
+      {selectedSubSkill && !editingItem && (
         <SubSkillModal
           subSkill={selectedSubSkill}
           onClose={() => {
             setSelectedSubSkillId(null);
           }}
+          onEdit={() => setEditingItem({ kind: "subskill", id: selectedSubSkill.id })}
           onMarkLearned={handleMarkLearned}
           onCreateChild={() => {
             setCreateSubSkillParentId(
@@ -323,6 +362,15 @@ export default function SkillsPage() {
             setIsSubSkillModalOpen(true);
           }}
           onDelete={handleDeleteSubSkill}/>
+      )}
+      {editingItem && itemToEdit && (
+        <EditSkillModal
+          key={`${editingItem.kind}:${editingItem.id}`}
+          item={itemToEdit}
+          kind={editingItem.kind}
+          onClose={() => setEditingItem(null)}
+          onSave={handleSaveDetails}
+        />
       )}
     </>
   );
