@@ -9,50 +9,96 @@ function notifySkillsUpdated(): void {
   }
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function readArray(key: string): unknown[] {
+  if (typeof window === "undefined") return [];
+
+  try {
+    const saved = localStorage.getItem(key);
+    if (!saved) return [];
+
+    const parsed: unknown = JSON.parse(saved);
+    if (!Array.isArray(parsed)) {
+      console.warn(`Invalid ${key} data: expected an array`);
+      return [];
+    }
+
+    return parsed;
+  } catch (error) {
+    console.error(`Failed to read ${key}:`, error);
+    return [];
+  }
+}
+
 export function getSkills(): Skill[] {
-  const savedSkills = localStorage.getItem("skills");
+  return readArray("skills").flatMap((value): Skill[] => {
+    if (!isRecord(value) ||
+        typeof value.id !== "string" || !value.id.trim() ||
+        typeof value.name !== "string" || !value.name.trim() ||
+        typeof value.icon !== "string" || !value.icon.trim()) {
+      return [];
+    }
 
-  if (!savedSkills) return [];
-
-  const skills: unknown = JSON.parse(savedSkills);
-
-  if (!Array.isArray(skills) || !skills.every((skill) => 
-        skill !== null &&
-        typeof skill === "object" &&
-        typeof skill.id === "string" &&
-        typeof skill.name === "string" &&
-        typeof skill.icon === "string")) {
-
-    throw new Error("Invalid skills data");
-  }
-  return skills as Skill[];
+    return [{
+      id: value.id,
+      name: value.name,
+      icon: value.icon,
+      ...(typeof value.description === "string"
+        ? { description: value.description }
+        : {}),
+    }];
+  });
 }
+
+export function getSubSkills(): SubSkill[] {
+  return readArray("subSkills").flatMap((value): SubSkill[] => {
+    if (!isRecord(value) ||
+        typeof value.id !== "string" || !value.id.trim() ||
+        typeof value.skillId !== "string" || !value.skillId.trim() ||
+        typeof value.name !== "string" || !value.name.trim() ||
+        typeof value.icon !== "string" || !value.icon.trim() ||
+        typeof value.studied !== "boolean") {
+      return [];
+    }
+
+    const parentSubSkillId =
+      typeof value.parentSubSkillId === "string" &&
+      value.parentSubSkillId !== value.id
+        ? value.parentSubSkillId
+        : null;
+
+    return [{
+      id: value.id,
+      skillId: value.skillId,
+      name: value.name,
+      icon: value.icon,
+      studied: value.studied,
+      parentSubSkillId,
+      description: typeof value.description === "string" ? value.description : "",
+      x: typeof value.x === "number" && Number.isFinite(value.x) ? value.x : 0,
+      y: typeof value.y === "number" && Number.isFinite(value.y) ? value.y : 0,
+    }];
+  });
+}
+
+function writeArray(key: string, items: Skill[] | SubSkill[]): void {
+  if (typeof window === "undefined") return;
+
+  try {
+    localStorage.setItem(key, JSON.stringify(items));
+    notifySkillsUpdated();
+  } catch (error) {
+    console.error(`Failed to save ${key}:`, error);
+  }
+}
+
 export function saveSkills(skills: Skill[]): void {
-  localStorage.setItem("skills", JSON.stringify(skills));
-  notifySkillsUpdated();
+  writeArray("skills", skills);
 }
 
-export function getSubSkills (): SubSkill[] {
-  const savedSubSkills = localStorage.getItem("subSkills");
-
-  if (!savedSubSkills) return [];
-
-  const subSkills: unknown = JSON.parse(savedSubSkills);
-
-  if (!Array.isArray(subSkills) || !subSkills.every((subSkill) => 
-        subSkill !== null &&
-        typeof subSkill === "object" &&
-        typeof subSkill.id === "string" &&
-        typeof subSkill.skillId === "string" &&
-        typeof subSkill.name === "string" &&
-        typeof subSkill.icon === "string" &&
-        typeof subSkill.studied === "boolean")) {
-
-    throw new Error("Invalid subSkills data");
-  }
-  return subSkills as SubSkill[];
-}
 export function saveSubSkills(subSkills: SubSkill[]): void {
-  localStorage.setItem("subSkills", JSON.stringify(subSkills));
-  notifySkillsUpdated();
+  writeArray("subSkills", subSkills);
 }

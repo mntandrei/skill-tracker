@@ -61,7 +61,7 @@ export default function PannelSkills() {
         </h1>
       </div>
       <SelectTab selectedSkillId={selectedSkillId} setSelectedSkillId={setSelectedSkillId} />
-      <StreakTab />
+      <StreakTab skillId={selectedSkillId} />
       <div className="md:col-span-2">
         <ProgressTab progress={progress} />
       </div>

@@ -13,6 +13,7 @@ import type { Skill } from "@/app/components/types/skill";
 import type { SubSkill } from "@/app/components/types/subskill";
 import { getSkills, saveSkills, getSubSkills, saveSubSkills } from "@/app/components/lib/skills-storage";
 import { increaseStreak } from "@/app/components/lib/streak-storage";
+import { removeSubSkillTree } from "@/app/components/lib/skill-operations";
 
 export default function SkillsPage() {
   const [editingItem, setEditingItem] = useState<{ kind: "skill" | "subskill"; id: string } | null>(null);
@@ -118,34 +119,13 @@ export default function SkillsPage() {
     setSubSkills(updatedSubSkills);
     saveSubSkills(updatedSubSkills);
 
-    increaseStreak();
+    increaseStreak(selectedSubSkill.skillId);
   }
 
   function handleDeleteSubSkill() {
     if (!selectedSubSkill) return;
 
-    const idsToDelete = new Set<string>([
-      selectedSubSkill.id,
-    ]);
-
-    let foundMore = true;
-
-    while (foundMore) {
-      foundMore = false;
-
-      for (const item of subSkills) {
-        if (
-          item.parentSubSkillId !== null &&
-          idsToDelete.has(item.parentSubSkillId) &&
-          !idsToDelete.has(item.id)
-        ) {
-          idsToDelete.add(item.id);
-          foundMore = true;
-        }
-      }
-    }
-
-    const updatedSubSkills = subSkills.filter((item) => !idsToDelete.has(item.id));
+    const updatedSubSkills = removeSubSkillTree(subSkills, selectedSubSkill.id);
 
     setSubSkills(updatedSubSkills);
     saveSubSkills(updatedSubSkills);

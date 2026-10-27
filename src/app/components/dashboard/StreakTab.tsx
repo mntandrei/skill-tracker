@@ -17,7 +17,7 @@ function formatTime(milliseconds: number): string {
     .join(":");
 }
 
-export default function StreakTab() {
+export default function StreakTab({ skillId }: { skillId: string }) {
   const [streak, setStreak] = useState<StreakState>({
     count: 0,
     lastIncreaseAt: null,
@@ -27,7 +27,7 @@ export default function StreakTab() {
 
   useEffect(() => {
     function refreshStreak() {
-      setStreak(getStreak());
+      setStreak(getStreak(skillId));
       setNow(Date.now());
     }
 
@@ -47,15 +47,15 @@ export default function StreakTab() {
       window.removeEventListener("storage", refreshStreak);
       window.removeEventListener("focus", refreshStreak);
     };
-  }, []);
+  }, [skillId]);
 
   const lastIncreaseAt = streak.lastIncreaseAt;
-  const isActive = now !== null && lastIncreaseAt !== null && now >= lastIncreaseAt && now < lastIncreaseAt + STREAK_EXPIRY_MS;
+  const isActive = Boolean(skillId) && now !== null && lastIncreaseAt !== null && now >= lastIncreaseAt && now < lastIncreaseAt + STREAK_EXPIRY_MS;
   const streakCount = isActive ? streak.count : 0;
   const cooldownRemaining = isActive && lastIncreaseAt !== null ? Math.max(0, lastIncreaseAt + STREAK_COOLDOWN_MS - now!) : 0;
   const endRemaining = isActive && lastIncreaseAt !== null ? Math.max(0, lastIncreaseAt + STREAK_EXPIRY_MS - now!) : 0;
   const isCooldown = cooldownRemaining > 0;
-  const statusMessage = now === null ? "Loading streak..." : isCooldown ? "Cooldown active. Your streak is protected." 
+  const statusMessage = !skillId ? "Select a skill to track your streak." : now === null ? "Loading streak..." : isCooldown ? "Cooldown active. Your streak is protected." 
     : isActive  ? "Ready! Mark a subskill as learned to continue." : "Mark a subskill as learned to start.";
 
   return (
