@@ -1,25 +1,16 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
 import { Plus, X } from "lucide-react";
-
 import CreateSkillModal from "./CreateSkillModal";
 import DeleteSkillModal from "./DeleteSkillModal";
 import CreateSubSkillModal from "./CreateSubSkillModal";
 import SubSkillModal from "./SubSkillModal";
 import SubSkillNode from "./SubSkillNode";
 import { skillIcons } from "./IconPicker";
-
 import type { Skill } from "@/app/components/types/skill";
 import type { SubSkill } from "@/app/components/types/subskill";
-
-import {
-  getSkills,
-  saveSkills,
-  getSubSkills,
-  saveSubSkills,
-} from "@/app/components/lib/skills-storage";
+import {  getSkills, saveSkills, getSubSkills, saveSubSkills} from "@/app/components/lib/skills-storage";
 
 export default function SkillsPage() {
   const [isOpen, setIsOpen] = useState(false);
