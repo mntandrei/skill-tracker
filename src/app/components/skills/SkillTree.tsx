@@ -1,8 +1,11 @@
+
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+
 import type { Skill } from "@/app/components/types/skill";
 import type { SubSkill } from "@/app/components/types/subskill";
+
 import { skillIcons } from "./IconPicker";
 import SubSkillNode from "./SubSkillNode";
 
@@ -27,13 +30,22 @@ const NODE_SPACING = 170;
 const LEVEL_SPACING = 165;
 const FIRST_LEVEL_Y = 250;
 
+const NODE_RADIUS = 40;
+const ROOT_RADIUS = 56;
+const EDGE_PADDING = NODE_RADIUS + 5;
+
 function createLayout(
   subSkills: SubSkill[],
   viewportWidth: number
 ) {
-  const ids = new Set(subSkills.map((item) => item.id));
+  const ids = new Set(
+    subSkills.map((item) => item.id)
+  );
 
-  const childrenMap = new Map<string | null, SubSkill[]>();
+  const childrenMap = new Map<
+    string | null,
+    SubSkill[]
+  >();
 
   for (const item of subSkills) {
     const parentId =
@@ -50,13 +62,18 @@ function createLayout(
 
   const roots = childrenMap.get(null) ?? [];
 
-  function countLeaves( node: SubSkill, visited = new Set<string>()): number {
+  function countLeaves(
+    node: SubSkill,
+    visited = new Set<string>()
+  ): number {
     if (visited.has(node.id)) return 1;
 
     const nextVisited = new Set(visited);
     nextVisited.add(node.id);
 
-    const children = (childrenMap.get(node.id) ?? []).filter(
+    const children = (
+      childrenMap.get(node.id) ?? []
+    ).filter(
       (child) => !nextVisited.has(child.id)
     );
 
@@ -72,34 +89,55 @@ function createLayout(
   const leafCount = Math.max(
     1,
     roots.reduce(
-      (total, node) => total + countLeaves(node),
+      (total, node) =>
+        total + countLeaves(node),
       0
     )
   );
 
-  const width = Math.max(700, viewportWidth, leafCount * NODE_SPACING + 180
+  const width = Math.max(
+    700,
+    viewportWidth,
+    leafCount * NODE_SPACING + 180
   );
 
-  const startX = (width - leafCount * NODE_SPACING) / 2;
+  const startX =
+    (width - leafCount * NODE_SPACING) / 2;
+
   const positions: Record<string, Point> = {};
+
   let nextLeaf = 0;
 
-  function positionNode(node: SubSkill, depth: number, visited = new Set<string>()): number {
+  function positionNode(
+    node: SubSkill,
+    depth: number,
+    visited = new Set<string>()
+  ): number {
     const nextVisited = new Set(visited);
     nextVisited.add(node.id);
 
-    const children = (childrenMap.get(node.id) ?? []).filter(
+    const children = (
+      childrenMap.get(node.id) ?? []
+    ).filter(
       (child) => !nextVisited.has(child.id)
     );
 
     const childXs = children.map((child) =>
-      positionNode(child, depth + 1, nextVisited)
+      positionNode(
+        child,
+        depth + 1,
+        nextVisited
+      )
     );
 
     const x =
       childXs.length > 0
-        ? (childXs[0] + childXs[childXs.length - 1]) / 2
-        : startX + (nextLeaf++ + 0.5) * NODE_SPACING;
+        ? (
+            childXs[0] +
+            childXs[childXs.length - 1]
+          ) / 2
+        : startX +
+          (nextLeaf++ + 0.5) * NODE_SPACING;
 
     positions[node.id] = {
       x,
@@ -109,9 +147,14 @@ function createLayout(
     return x;
   }
 
-  roots.forEach((root) => positionNode(root, 0));
+  roots.forEach((root) =>
+    positionNode(root, 0)
+  );
 
-  return { width, positions };
+  return {
+    width,
+    positions,
+  };
 }
 
 function lineBetween(
@@ -136,15 +179,25 @@ function lineBetween(
   };
 }
 
-export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onPositionChange}: SkillTreeProps) {
+export default function SkillTree({
+  skill,
+  subSkills,
+  onSelect,
+  onCreateRoot,
+  onPositionChange,
+}: SkillTreeProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
-  const [viewportWidth, setViewportWidth] = useState(700);
-  const [dragPositions, setDragPositions] = useState<
-    Record<string, Point>
-  >({});
 
+  const [viewportWidth, setViewportWidth] =
+    useState(700);
+
+  const [dragPositions, setDragPositions] =
+    useState<Record<string, Point>>({});
+
+  // Measure the visible tree area.
   useEffect(() => {
     const viewport = viewportRef.current;
+
     if (!viewport) return;
 
     const updateWidth = () => {
@@ -152,31 +205,47 @@ export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onP
     };
 
     updateWidth();
-    const observer = new ResizeObserver(updateWidth);
+
+    const observer = new ResizeObserver(
+      updateWidth
+    );
+
     observer.observe(viewport);
 
     return () => observer.disconnect();
   }, []);
 
+  // Reset temporary drag positions when changing skills.
   useEffect(() => {
     setDragPositions({});
   }, [skill.id]);
 
-  const layout = createLayout(
-    subSkills,
-    viewportWidth
+  const layout = useMemo(
+    () => createLayout(subSkills, viewportWidth),
+    [subSkills, viewportWidth]
   );
 
   const positions: Record<string, Point> = {
     ...layout.positions,
   };
 
+  // Restore valid saved positions.
+  // Invalid positions fall back to automatic layout.
   for (const node of subSkills) {
-    if (
+    const hasSavedPosition =
       Number.isFinite(node.x) &&
       Number.isFinite(node.y) &&
-      (node.x !== 0 || node.y !== 0)
-    ) {
+      (node.x !== 0 || node.y !== 0);
+
+    if (!hasSavedPosition) continue;
+
+    const savedPositionIsValid =
+      node.x >= EDGE_PADDING &&
+      node.x <= layout.width - EDGE_PADDING &&
+      node.y >= EDGE_PADDING &&
+      node.y <= 4000;
+
+    if (savedPositionIsValid) {
       positions[node.id] = {
         x: node.x,
         y: node.y,
@@ -184,58 +253,171 @@ export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onP
     }
   }
 
+  // Apply live positions while dragging.
   Object.assign(positions, dragPositions);
 
-  const canvasWidth = Math.max(
-    layout.width,
+  // Fixed horizontal canvas boundary.
+  const canvasWidth = layout.width;
+
+  // Allow additional vertical space for deeper branches.
+  const canvasHeight = Math.max(
+    650,
     ...Object.values(positions).map(
-      (point) => point.x + 100
+      (point) => point.y + 110
     )
   );
 
-  const canvasHeight = Math.max(520,...Object.values(positions).map((point) => point.y + 100));
-  const mainPosition: Point = {x: layout.width / 2,y: 90,};
-  const selectedIcon = skillIcons.find((icon) => icon.id === skill.icon);
+  const mainPosition: Point = {
+    x: canvasWidth / 2,
+    y: 90,
+  };
+
+  const selectedIcon = skillIcons.find(
+    (icon) => icon.id === skill.icon
+  );
+
   const MainIcon = selectedIcon?.Icon;
 
-  function handleMove(id: string,x: number,y: number) {setDragPositions((previous) => ({...previous,[id]: {
-        x: Math.max(45, Math.round(x)),
-        y: Math.max(45, Math.round(y)),
-      },
+  // Keep the node entirely within visible boundaries.
+  function limitPosition(
+    x: number,
+    y: number
+  ): Point {
+    const viewport = viewportRef.current;
+
+    if (!viewport) {
+      return {
+        x: Math.round(
+          Math.max(
+            EDGE_PADDING,
+            Math.min(
+              x,
+              canvasWidth - EDGE_PADDING
+            )
+          )
+        ),
+        y: Math.round(
+          Math.max(EDGE_PADDING, y)
+        ),
+      };
+    }
+
+    const scrollLeft = viewport.scrollLeft;
+    const scrollTop = viewport.scrollTop;
+
+    const visibleWidth = viewport.clientWidth;
+    const visibleHeight = viewport.clientHeight;
+
+    // Left and right boundaries
+    const minX = scrollLeft + EDGE_PADDING;
+
+    const maxX = Math.max(
+      minX,
+      Math.min(
+        canvasWidth - EDGE_PADDING,
+        scrollLeft +
+          visibleWidth -
+          EDGE_PADDING
+      )
+    );
+
+    // Top and bottom boundaries
+    const minY = scrollTop + EDGE_PADDING;
+
+    const maxY = Math.max(
+      minY,
+      Math.min(
+        canvasHeight - EDGE_PADDING,
+        scrollTop +
+          visibleHeight -
+          EDGE_PADDING
+      )
+    );
+
+    return {
+      x: Math.round(
+        Math.max(minX, Math.min(x, maxX))
+      ),
+      y: Math.round(
+        Math.max(minY, Math.min(y, maxY))
+      ),
+    };
+  }
+
+  // Update the node and SVG lines during dragging.
+  function handleMove(
+    id: string,
+    x: number,
+    y: number
+  ) {
+    const position = limitPosition(x, y);
+
+    setDragPositions((previous) => ({
+      ...previous,
+      [id]: position,
     }));
   }
 
-  function handleDrop(id: string,x: number, y: number) {
-    const nextX = Math.max(45, Math.round(x));
-    const nextY = Math.max(45, Math.round(y));
+  // Save the final position to localStorage through props.
+  function handleDrop(
+    id: string,
+    x: number,
+    y: number
+  ) {
+    const position = limitPosition(x, y);
 
-    onPositionChange(id, nextX, nextY);
+    onPositionChange(
+      id,
+      position.x,
+      position.y
+    );
 
-    setDragPositions((previous) => {const updated = { ...previous };
-        delete updated[id];
-        return updated;
+    setDragPositions((previous) => {
+      const updated = { ...previous };
+
+      delete updated[id];
+
+      return updated;
     });
   }
 
   return (
     <div
       ref={viewportRef}
-      className="h-full min-h-[450px] w-full min-w-0 overflow-auto">
+      className="h-full min-h-[420px] w-full min-w-0 overflow-auto md:min-h-0"
+    >
       <div
         className="relative"
-        style={{width: canvasWidth, height: canvasHeight,}}>
+        style={{
+          width: canvasWidth,
+          height: canvasHeight,
+        }}
+      >
+        {/* SVG connection lines */}
         <svg
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 text-zinc-400 dark:text-zinc-500"
           width={canvasWidth}
-          height={canvasHeight}>
+          height={canvasHeight}
+        >
           {subSkills.map((node) => {
             const target = positions[node.id];
+
             if (!target) return null;
 
-            const parent = node.parentSubSkillId ? positions[node.parentSubSkillId] : null;
+            const parent = node.parentSubSkillId
+              ? positions[node.parentSubSkillId]
+              : null;
+
             const source = parent ?? mainPosition;
-            const line = lineBetween(source, target, parent ? 40 : 56, 40);
+
+            const line = lineBetween(
+              source,
+              target,
+              parent ? NODE_RADIUS : ROOT_RADIUS,
+              NODE_RADIUS
+            );
+
             return (
               <line
                 key={node.id}
@@ -247,6 +429,8 @@ export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onP
             );
           })}
         </svg>
+
+        {/* Main skill circle */}
         <button
           type="button"
           onClick={onCreateRoot}
@@ -255,18 +439,25 @@ export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onP
             top: mainPosition.y,
             transform: "translate(-50%, -50%)",
           }}
-          className="absolute z-10 flex h-28 w-28 cursor-pointer flex-col items-center justify-center gap-2 rounded-full border-2 border-red-500/50 bg-red-500/10 p-3 text-center text-red-700 dark:text-red-400">
+          className="absolute z-10 flex h-28 w-28 cursor-pointer flex-col items-center justify-center gap-2 rounded-full border-2 border-red-500/50 bg-red-500/10 p-3 text-center text-red-700 dark:text-red-400"
+        >
           {MainIcon && (
             <MainIcon
               size={26}
               strokeWidth={1.8}
-              className="shrink-0"/>
+              className="shrink-0"
+            />
           )}
+
           <span className="line-clamp-2 max-w-full break-words text-sm font-semibold">
             {skill.name}
           </span>
         </button>
-        {subSkills.map((node) => {const position = positions[node.id];
+
+        {/* Draggable subskills */}
+        {subSkills.map((node) => {
+          const position = positions[node.id];
+
           if (!position) return null;
 
           return (
@@ -276,7 +467,8 @@ export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onP
               position={position}
               onSelect={onSelect}
               onMove={handleMove}
-              onDrop={handleDrop}/>
+              onDrop={handleDrop}
+            />
           );
         })}
       </div>
