@@ -18,10 +18,7 @@ type SelectTabProps = {
   setSelectedSkillId: Dispatch<SetStateAction<string>>;
 };
 
-export default function SelectTab({
-  selectedSkillId,
-  setSelectedSkillId,
-}: SelectTabProps) {
+export default function SelectTab({selectedSkillId, setSelectedSkillId,}: SelectTabProps) {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [subSkills, setSubSkills] = useState<SubSkill[]>([]);
 
