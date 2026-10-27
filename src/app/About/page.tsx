@@ -22,13 +22,13 @@ export default function About() {
             </p>
 
             <h1 className="mt-2 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-3xl transition-transform duration-300 hover:scale-102">
-              Hey, I'm Muntianu Andrei.
+              Hey, I&apos;m Muntianu Andrei.
             </h1>
 
             <p className="mt-4 max-w-2xl text-sm leading-7 text-zinc-600 dark:text-zinc-400 sm:text-base">
-              I'm learning web development and working toward
+              I&apos;m learning web development and working toward
               becoming a Front-End Developer. I enjoy turning
-              ideas into real projects, even when I don't know
+              ideas into real projects, even when I don&apos;t know
               exactly how to build them yet.
             </p>
 
@@ -64,7 +64,7 @@ export default function About() {
               </div>
 
               <h2 className="text-lg font-semibold text-zinc-900 dark:text-white transition-transform duration-300 hover:scale-103">
-                What I've Learned
+                What I&apos;ve Learned
               </h2>
 
               <p className="mt-3 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
@@ -74,9 +74,9 @@ export default function About() {
               </p>
 
               <p className="mt-3 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
-                There were definitely some challenges along the way, and I didn't grasp everything immediately. 
+                There were definitely some challenges along the way, and I didn&apos;t grasp everything immediately. 
                 However, the process of troubleshooting, resolving issues, and watching the app gradually come together has truly enriched my experience. 
-                I'm grateful for all that I've learned!
+                I&apos;m grateful for all that I&apos;ve learned!
               </p>
             </div>
 
@@ -119,7 +119,7 @@ export default function About() {
 
               <div className="min-w-0">
                 <h2 className="text-lg font-semibold text-zinc-900 dark:text-white duration-300 hover:scale-101">
-                  What's Next?
+                  What&apos;s Next?
                 </h2>
 
                 <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
