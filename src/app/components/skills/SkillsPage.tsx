@@ -64,6 +64,15 @@ export default function SkillsPage() {
     ? skills.find((item) => item.id === editingItem.id)
     : subSkills.find((item) => item.id === editingItem?.id);
 
+  function handleCreateRoot(skillId: string) {
+    localStorage.setItem("selectedSkillId", skillId);
+    setSelectedSkillId(skillId);
+    setSelectedSubSkillId(null);
+    setCreateSubSkillParentId(null);
+    setEditingItem(null);
+    setIsSubSkillModalOpen(true);
+  }
+
   function handleSaveDetails(details: SkillDetails) {
     if (!editingItem) return;
 
@@ -263,10 +272,7 @@ export default function SkillsPage() {
               subSkills={currentSubSkills}
               onSelect={setSelectedSubSkillId}
               onEdit={() => setEditingItem({ kind: "skill", id: selectedSkill.id })}
-              onCreateRoot={() => {
-                setCreateSubSkillParentId(null);
-                setIsSubSkillModalOpen(true);
-              }}
+              onCreateRoot={() => handleCreateRoot(selectedSkill.id)}
               onPositionChange={handlePositionChange}/>
           )}
         </div>
@@ -370,6 +376,9 @@ export default function SkillsPage() {
           kind={editingItem.kind}
           onClose={() => setEditingItem(null)}
           onSave={handleSaveDetails}
+          onCreateSubSkill={editingItem.kind === "skill"
+            ? () => handleCreateRoot(editingItem.id)
+            : undefined}
         />
       )}
     </>

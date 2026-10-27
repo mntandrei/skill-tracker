@@ -15,9 +15,10 @@ type EditSkillModalProps = {
   kind: "skill" | "subskill";
   onClose: () => void;
   onSave: (details: SkillDetails) => void;
+  onCreateSubSkill?: () => void;
 };
 
-export default function EditSkillModal({ item, kind, onClose, onSave }: EditSkillModalProps) {
+export default function EditSkillModal({ item, kind, onClose, onSave, onCreateSubSkill }: EditSkillModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [description, setDescription] = useState(item.description ?? "");
   const [selectedIcon, setSelectedIcon] = useState(item.icon);
@@ -92,6 +93,15 @@ export default function EditSkillModal({ item, kind, onClose, onSave }: EditSkil
             Update the name, description and icon.
           </p>
         </div>
+        {onCreateSubSkill && (
+          <button
+            type="button"
+            onClick={onCreateSubSkill}
+            className="mb-5 flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-red-500/30 bg-red-500/5 px-4 py-3 text-sm font-semibold text-red-700 transition-colors hover:bg-red-500/10 dark:border-red-500/30 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-950/40">
+            <Plus size={19} />
+            Create Subskill
+          </button>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
