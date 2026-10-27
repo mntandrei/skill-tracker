@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Check, ChevronDown, Plus, X } from "lucide-react";
-import { skillIcons } from "./IconPicker";
+import { ChevronDown, Plus, X } from "lucide-react";
+import IconPicker, { skillIcons } from "./IconPicker";
 import type { SubSkill } from "@/app/components/types/subskill";
 
 type CreateSubSkillModalProps = {
@@ -18,10 +18,6 @@ export default function CreateSubSkillModal({onClose, onCreate, skillId, parentS
   const [selectedIcon, setSelectedIcon] = useState<string>("");
   const [nameError, setNameError] = useState<boolean>(false);
   const [iconError, setIconError] = useState<boolean>(false);
-
-  const categories = [
-    ...new Set(skillIcons.map((icon) => icon.category)),
-  ];
 
   const SelectedIcon = skillIcons.find(
     (icon) => icon.id === selectedIcon
@@ -136,45 +132,13 @@ export default function CreateSubSkillModal({onClose, onCreate, skillId, parentS
                   className="transition-transform duration-200 group-open:rotate-180"
                 />
               </summary>
-              <div className="mt-3 max-h-44 space-y-2 overflow-y-auto rounded-xl border border-zinc-200 bg-zinc-50 p-3 sm:max-h-56 dark:border-zinc-700 dark:bg-zinc-950">
-                {categories.map((category) => (
-                  <details
-                    key={category}
-                    className="group/category rounded-lg border border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900">
-                    <summary className="flex cursor-pointer list-none items-center justify-between px-3 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:text-red-700 dark:text-zinc-200 dark:hover:text-red-400 [&::-webkit-details-marker]:hidden">
-                      {category}
-                      <ChevronDown
-                        size={16}
-                        className="text-zinc-400 transition-transform duration-200 group-open/category:rotate-180"/>
-                    </summary>
-                    <div className="grid grid-cols-4 gap-2 border-t border-zinc-100 p-3 min-[380px]:grid-cols-5 sm:grid-cols-6 dark:border-zinc-800">
-                      {skillIcons
-                        .filter((icon) => icon.category === category)
-                        .map(({ id, Icon }) => (
-                          <button
-                            key={id}
-                            type="button"
-                            title={id}
-                            aria-label={id}
-                            aria-pressed={selectedIcon === id}
-                            onClick={() => {
-                              setSelectedIcon(
-                                selectedIcon === id ? "" : id
-                              );
-                              setIconError(false);
-                            }}
-                            className={`flex aspect-square cursor-pointer items-center justify-center rounded-lg border transition-colors ${
-                              selectedIcon === id
-                                ? "border-red-500 bg-red-50 text-red-700 dark:border-red-500 dark:bg-red-950/40 dark:text-red-400"
-                                : "border-zinc-200 bg-zinc-50 text-zinc-600 hover:border-red-300 hover:bg-red-50 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-red-700 dark:hover:bg-zinc-700 dark:hover:text-red-400"
-                            }`}>
-                            <Icon size={21} strokeWidth={1.8} />
-                          </button>
-                        ))}
-                    </div>
-                  </details>
-                ))}
-              </div>
+              <IconPicker
+                selectedIcon={skillIcons.find((icon) => icon.id === selectedIcon)?.id ?? null}
+                onSelect={(icon) => {
+                  setSelectedIcon(icon);
+                  setIconError(false);
+                }}
+              />
             </details>
             {iconError && (
               <p className="mt-2 text-sm text-red-600 dark:text-red-400">
