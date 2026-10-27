@@ -119,8 +119,7 @@ export default function CreateSkillModal({onClose, onCreate}: CreateSkillModalPr
                           title={id}
                           onClick={() => {
                             setSelectedIcon(selectedIcon === id ? "" : id),
-                            setIconError(false)
-                          }}
+                            setIconError(false)}}
                           className={`flex aspect-square cursor-pointer items-center justify-center rounded-lg border transition-colors ${
                             selectedIcon === id
                               ? "border-red-500 bg-red-50 text-red-700 dark:border-red-500 dark:bg-red-950/40 dark:text-red-400"

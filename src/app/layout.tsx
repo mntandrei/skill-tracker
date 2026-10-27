@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   },
 };
 
-const version = "v0.9.8";
-const release = "PRE-RELEASED";
+const version = "v1.0.0";
+const release = "RELEASED";
 
 export default function RootLayout({
   children,
@@ -22,8 +22,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <script
-          dangerouslySetInnerHTML={{
-            __html: `
+          dangerouslySetInnerHTML={{__html: `
               try {
                 const savedTheme = localStorage.getItem("theme");
 

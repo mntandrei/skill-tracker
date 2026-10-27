@@ -200,8 +200,7 @@ export default function IconPicker({
             className={`flex aspect-square cursor-pointer items-center justify-center rounded-lg border transition-colors focus-visible:outline-2 focus-visible:outline-red-500 ${
               selectedIcon === id
                 ? "border-red-600 bg-red-50 text-red-700 dark:border-red-600 dark:bg-red-950/30 dark:text-red-700"
-                : "border-zinc-200 bg-white text-zinc-600 hover:border-red-300 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-red-700 dark:hover:bg-zinc-700 dark:hover:text-red-700"
-            }`}>
+                : "border-zinc-200 bg-white text-zinc-600 hover:border-red-300 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-red-700 dark:hover:bg-zinc-700 dark:hover:text-red-700"}`}>
             <Icon size={21} strokeWidth={1.8} />
           </button>
         ))}
