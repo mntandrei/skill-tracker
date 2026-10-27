@@ -12,7 +12,7 @@ export default function About() {
                 <Code2 size={25} strokeWidth={1.8} />
               </div>
 
-              <span className="rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-medium text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-400 transition-transform duration-300 hover:scale-105 hover:text-red-300">
+              <span className="rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-medium text-red-700 dark:border-red-900 dark:bg-red-950/30 dark:text-red-400 transition-transform duration-300 hover:scale-105 hover:text-red-500 ">
                 Aspiring Front-End Developer
               </span>
             </div>
