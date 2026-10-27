@@ -1,19 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { Check, Plus, Trash2, X } from "lucide-react";
+import { Check, Pencil, Plus, Trash2, X } from "lucide-react";
 import { skillIcons } from "./IconPicker";
 import type { SubSkill } from "@/app/components/types/subskill";
 
 type SubSkillModalProps = {
   subSkill: SubSkill;
   onClose: () => void;
+  onEdit: () => void;
   onMarkLearned: () => void;
   onCreateChild: () => void;
   onDelete: () => void;
 };
 
-export default function SubSkillModal({subSkill,onClose,onMarkLearned,onCreateChild,onDelete}: SubSkillModalProps) {
+export default function SubSkillModal({subSkill,onClose,onEdit,onMarkLearned,onCreateChild,onDelete}: SubSkillModalProps) {
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
   const selectedIcon = skillIcons.find(
@@ -60,6 +61,13 @@ export default function SubSkillModal({subSkill,onClose,onMarkLearned,onCreateCh
         </div>
         {!isConfirmingDelete ? (
           <div className="space-y-3">
+            <button
+              type="button"
+              onClick={onEdit}
+              className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-4 py-3 text-sm font-semibold text-zinc-700 transition-colors hover:border-red-300 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:border-red-700 dark:hover:text-red-400">
+              <Pencil size={17} />
+              Edit Subskill
+            </button>
             <button
               type="button"
               onClick={onMarkLearned}

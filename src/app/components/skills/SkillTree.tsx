@@ -21,6 +21,7 @@ type SkillTreeProps = {
   subSkills: SubSkill[];
   onSelect: (id: string) => void;
   onCreateRoot: () => void;
+  onEdit: () => void;
   onPositionChange: (
     id: string,
     x: number,
@@ -160,7 +161,7 @@ function lineBetween(from: Point, to: Point, fromRadius: number, toRadius: numbe
   };
 }
 
-export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onPositionChange}: SkillTreeProps) {
+export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onEdit, onPositionChange}: SkillTreeProps) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const [zoom, setZoom] = useState(100);
   const [rootPosition, setRootPosition] = useState<Point | null>(null);
@@ -472,6 +473,13 @@ export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onP
           <Plus size={18} aria-hidden="true" />
         </button>
       </div>
+      <button
+        type="button"
+        onClick={onCreateRoot}
+        className="absolute bottom-3 left-3 z-20 flex cursor-pointer items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700 shadow-sm transition-colors hover:bg-red-100 dark:border-red-900 dark:bg-zinc-900 dark:text-red-400 dark:hover:bg-zinc-800">
+        <Plus size={18} />
+        Add Subskill
+      </button>
       <div ref={viewportRef} className="min-h-0 w-full min-w-0 flex-1 overflow-auto">
         <div
           className="relative mx-auto overflow-hidden"
@@ -519,6 +527,7 @@ export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onP
         </svg>
         <button
           type="button"
+          title={`${skill.name} - Click to edit, drag to move`}
           onPointerDown={handleRootPointerDown}
           onPointerMove={handleRootPointerMove}
           onPointerUp={handleRootPointerUp}
@@ -528,7 +537,7 @@ export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onP
               rootWasDraggedRef.current = false;
               return;
             }
-            onCreateRoot();
+            onEdit();
           }}
           style={{
             left: mainPosition.x,
