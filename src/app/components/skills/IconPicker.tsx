@@ -142,10 +142,7 @@ type IconPickerProps = {
   onSelect: (icon: SkillIconName) => void;
 };
 
-export default function IconPicker({
-  selectedIcon,
-  onSelect,
-}: IconPickerProps) {
+export default function IconPicker({selectedIcon, onSelect}: IconPickerProps) {
   const [category, setCategory] =
     useState<IconCategory>("Programming");
 
