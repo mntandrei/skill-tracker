@@ -83,3 +83,13 @@ export function clearStreak(skillId: string): void {
     console.error("Failed to clear streak:", error);
   }
 }
+
+export function clearStreak(skillId: string): void {
+  if (!skillId || typeof window === "undefined") return;
+  try {
+    localStorage.removeItem(`skill-tracker:streak:${skillId}`);
+    window.dispatchEvent(new Event(STREAK_UPDATED_EVENT));
+  } catch (error) {
+    console.error("Failed to clear streak:", error);
+  }
+}

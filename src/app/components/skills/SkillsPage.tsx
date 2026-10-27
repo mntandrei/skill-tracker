@@ -1,137 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Pencil, Plus, X } from "lucide-react";
 import CreateSkillModal from "./CreateSkillModal";
 import DeleteSkillModal from "./DeleteSkillModal";
 import CreateSubSkillModal from "./CreateSubSkillModal";
 import SubSkillModal from "./SubSkillModal";
 import SkillTree from "./SkillTree";
-import EditSkillModal, { type SkillDetails } from "./EditSkillModal";
+import EditSkillModal from "./EditSkillModal";
 import { skillIcons } from "./IconPicker";
-import type { Skill } from "@/app/components/types/skill";
-import type { SubSkill } from "@/app/components/types/subskill";
-import { getSkills, saveSkills, getSubSkills, saveSubSkills } from "@/app/components/lib/skills-storage";
-import { increaseStreak } from "@/app/components/lib/streak-storage";
-import { removeSubSkillTree } from "@/app/components/lib/skill-operations";
+import { useSkillsPage } from "./useSkillsPage";
 
 export default function SkillsPage() {
-  const [editingItem, setEditingItem] = useState<{ kind: "skill" | "subskill"; id: string } | null>(null);
-  const [isOpen, setIsOpen] = useState(false);
-  const [skills, setSkills] = useState<Skill[]>([]);
-  const [subSkills, setSubSkills] = useState<SubSkill[]>([]);
-  const [skillToDelete, setSkillToDelete] = useState<string | null>(null);
-  const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null);
-  const [selectedSubSkillId, setSelectedSubSkillId] = useState<string | null>(null);
-  const [isSubSkillModalOpen, setIsSubSkillModalOpen] = useState(false);
-  const [createSubSkillParentId, setCreateSubSkillParentId] = useState<string | null>(null);
-
-  useEffect(() => {
-    try {
-      const parsedSkills = getSkills();
-      const parsedSubSkills = getSubSkills();
-
-      setSkills(parsedSkills);
-      setSubSkills(parsedSubSkills);
-
-      setIsOpen(parsedSkills.length === 0);
-
-      const savedID = localStorage.getItem("selectedSkillId");
-
-      if (
-        savedID &&
-        parsedSkills.some((skill) => skill.id === savedID)
-      ) {
-        setSelectedSkillId(savedID);
-      }
-    } catch (error) {
-      console.error("Failed to load skills:", error);
-    }
-  }, []);
-
-  const selectedSkill = skills.find(
-    (skill) => skill.id === selectedSkillId
-  );
-
-  const selectedSubSkill = subSkills.find(
-    (subSkill) => subSkill.id === selectedSubSkillId
-  );
-
-  const currentSubSkills = subSkills.filter(
-    (subSkill) => subSkill.skillId === selectedSkillId
-  );
-
-  const itemToEdit = editingItem?.kind === "skill"
-    ? skills.find((item) => item.id === editingItem.id)
-    : subSkills.find((item) => item.id === editingItem?.id);
-
-  function handleCreateRoot(skillId: string) {
-    localStorage.setItem("selectedSkillId", skillId);
-    setSelectedSkillId(skillId);
-    setSelectedSubSkillId(null);
-    setCreateSubSkillParentId(null);
-    setEditingItem(null);
-    setIsSubSkillModalOpen(true);
-  }
-
-  function handleSaveDetails(details: SkillDetails) {
-    if (!editingItem) return;
-
-    if (editingItem.kind === "skill") {
-      const updatedSkills = skills.map((item) =>
-        item.id === editingItem.id ? { ...item, ...details } : item
-      );
-      saveSkills(updatedSkills);
-      setSkills(updatedSkills);
-    } else {
-      const updatedSubSkills = subSkills.map((item) =>
-        item.id === editingItem.id ? { ...item, ...details } : item
-      );
-      saveSubSkills(updatedSubSkills);
-      setSubSkills(updatedSubSkills);
-    }
-
-    setEditingItem(null);
-  }
-
-  function handlePositionChange(id: string, x: number, y: number) {
-    const updatedSubSkills = subSkills.map((item) =>
-      item.id === id
-        ? { ...item, x, y }
-        : item
-    );
-
-    setSubSkills(updatedSubSkills);
-    saveSubSkills(updatedSubSkills);
-  }
-    
-  function handleMarkLearned() {
-    if (!selectedSubSkill || selectedSubSkill.studied) {
-      return;
-    }
-
-    const updatedSubSkills = subSkills.map((item) =>
-      item.id === selectedSubSkill.id
-        ? { ...item, studied: true }
-        : item
-    );
-
-    setSubSkills(updatedSubSkills);
-    saveSubSkills(updatedSubSkills);
-
-    increaseStreak(selectedSubSkill.skillId);
-  }
-
-  function handleDeleteSubSkill() {
-    if (!selectedSubSkill) return;
-
-    const updatedSubSkills = removeSubSkillTree(subSkills, selectedSubSkill.id);
-
-    setSubSkills(updatedSubSkills);
-    saveSubSkills(updatedSubSkills);
-
-    setSelectedSubSkillId(null);
-  }
+  const {
+    editingItem, setEditingItem, isOpen, setIsOpen, skills, skillToDelete, setSkillToDelete, selectedSkillId, selectedSubSkillId, setSelectedSubSkillId, isSubSkillModalOpen, createSubSkillParentId, selectedSkill, selectedSubSkill, currentSubSkills, itemToEdit, handleSelectSkill, handleCreateRoot, handleCreateChildSubSkill, handleCloseCreateSubSkill, handleCreateSkill, handleCreateSubSkill, handleSaveDetails, handlePositionChange, handleMarkLearned, handleDeleteSubSkill, handleDeleteSkill
+  } = useSkillsPage();
 
   return (
     <>
@@ -156,18 +38,7 @@ export default function SkillsPage() {
                   <button
                     type="button"
                     aria-pressed={isSelected}
-                    onClick={() => {
-                      const nextId = isSelected ? null : skill.id;
-
-                      setSelectedSkillId(nextId);
-                      setSelectedSubSkillId(null);
-
-                      if (nextId !== null) {
-                        localStorage.setItem("selectedSkillId", nextId);
-                      } else {
-                        localStorage.removeItem("selectedSkillId");
-                      }
-                    }}
+                    onClick={() => handleSelectSkill(isSelected ? null : skill.id)}
                     className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-md px-1 py-1.5 text-left focus-visible:outline-2 focus-visible:outline-red-500"
                   >
                     {Icon && (
@@ -255,14 +126,7 @@ export default function SkillsPage() {
       {isOpen && (
         <CreateSkillModal
           onClose={() => setIsOpen(false)}
-          onCreate={(newSkill) => {
-            const updatedSkills = [...skills, newSkill];
-
-            setSkills(updatedSkills);
-            saveSkills(updatedSkills);
-
-            setIsOpen(false);
-          }}
+          onCreate={handleCreateSkill}
         />
       )}
 
@@ -274,55 +138,15 @@ export default function SkillsPage() {
             )?.name || ""
           }
           onClose={() => setSkillToDelete(null)}
-          onDelete={() => {
-            const updatedSkills = skills.filter(
-              (skill) => skill.id !== skillToDelete
-            );
-
-            const updatedSubSkills = subSkills.filter(
-              (subSkill) =>
-                subSkill.skillId !== skillToDelete
-            );
-
-            setSkills(updatedSkills);
-            saveSkills(updatedSkills);
-
-            setSubSkills(updatedSubSkills);
-            saveSubSkills(updatedSubSkills);
-
-            if (selectedSkillId === skillToDelete) {
-              setSelectedSkillId(null);
-              setSelectedSubSkillId(null);
-
-              localStorage.removeItem(
-                "selectedSkillId"
-              );
-            }
-
-            setSkillToDelete(null);
-          }}/>
+          onDelete={handleDeleteSkill}/>
       )}
 
       {isSubSkillModalOpen && selectedSkillId && (
         <CreateSubSkillModal
           skillId={selectedSkillId}
           parentSubSkillId={createSubSkillParentId}
-          onClose={() => {
-            setIsSubSkillModalOpen(false);
-            setCreateSubSkillParentId(null);
-          }}
-          onCreate={(subSkill) => {
-            const updatedSubSkills = [
-              ...subSkills,
-              subSkill,
-            ];
-
-            setSubSkills(updatedSubSkills);
-            saveSubSkills(updatedSubSkills);
-
-            setIsSubSkillModalOpen(false);
-            setCreateSubSkillParentId(null);
-          }}/>
+          onClose={handleCloseCreateSubSkill}
+          onCreate={handleCreateSubSkill}/>
       )}
 
       {selectedSubSkill && !editingItem && (
@@ -333,14 +157,7 @@ export default function SkillsPage() {
           }}
           onEdit={() => setEditingItem({ kind: "subskill", id: selectedSubSkill.id })}
           onMarkLearned={handleMarkLearned}
-          onCreateChild={() => {
-            setCreateSubSkillParentId(
-              selectedSubSkill.id
-            );
-
-            setSelectedSubSkillId(null);
-            setIsSubSkillModalOpen(true);
-          }}
+          onCreateChild={() => handleCreateChildSubSkill(selectedSubSkill.id)}
           onDelete={handleDeleteSubSkill}/>
       )}
       {editingItem && itemToEdit && (
