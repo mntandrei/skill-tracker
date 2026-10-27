@@ -13,18 +13,11 @@ type SubSkillModalProps = {
   onDelete: () => void;
 };
 
-export default function SubSkillModal({
-  subSkill,
-  onClose,
-  onMarkLearned,
-  onCreateChild,
-  onDelete,
-}: SubSkillModalProps) {
+export default function SubSkillModal({subSkill,onClose,onMarkLearned,onCreateChild,onDelete}: SubSkillModalProps) {
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
   const selectedIcon = skillIcons.find(
-    (icon) => icon.id === subSkill.icon
-  );
+    (icon) => icon.id === subSkill.icon);
 
   const Icon = selectedIcon?.Icon;
 
