@@ -1,8 +1,13 @@
 name: Verify Skill Tracker
+
 on:
   push:
     branches: [skill-traker]
   workflow_dispatch:
+
+permissions:
+  contents: write
+
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -12,6 +17,17 @@ jobs:
         with:
           node-version: "22"
           cache: npm
+      - name: Sync dependency lockfile
+        run: npm install --package-lock-only --ignore-scripts
+      - name: Commit synchronized lockfile
+        run: |
+          if ! git diff --quiet -- package-lock.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add package-lock.json
+            git commit -m "Lock compatible TypeScript dependency"
+            git push origin HEAD:skill-traker
+          fi
       - run: npm ci
       - run: npm run lint
       - run: npm test
