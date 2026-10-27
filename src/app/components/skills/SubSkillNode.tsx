@@ -13,6 +13,7 @@ type Point = {
 type SubSkillNodeProps = {
   subSkill: SubSkill;
   position: Point;
+  scale?: number;
   onSelect: (id: string) => void;
   onMove: (id: string, x: number, y: number) => void;
   onDrop: (id: string, x: number, y: number) => void;
@@ -27,7 +28,7 @@ type DragInfo = {
   moved: boolean;
 };
 
-export default function SubSkillNode({subSkill, position, onSelect, onMove, onDrop,}: SubSkillNodeProps) {
+export default function SubSkillNode({subSkill, position, scale = 1, onSelect, onMove, onDrop,}: SubSkillNodeProps) {
   const dragRef = useRef<DragInfo | null>(null);
   const wasDraggedRef = useRef(false);
 
@@ -71,7 +72,7 @@ export default function SubSkillNode({subSkill, position, onSelect, onMove, onDr
     drag.moved = true;
     wasDraggedRef.current = true;
 
-    onMove(subSkill.id, drag.startX + dx, drag.startY + dy);
+    onMove(subSkill.id, drag.startX + dx / scale, drag.startY + dy / scale);
   }
 
   function handlePointerUp(event: PointerEvent<HTMLButtonElement>) {
@@ -85,7 +86,7 @@ export default function SubSkillNode({subSkill, position, onSelect, onMove, onDr
       const dx = event.clientX - drag.startClientX;
       const dy = event.clientY - drag.startClientY;
 
-      onDrop( subSkill.id, drag.startX + dx, drag.startY + dy);
+      onDrop( subSkill.id, drag.startX + dx / scale, drag.startY + dy / scale);
     }
 
     dragRef.current = null;
