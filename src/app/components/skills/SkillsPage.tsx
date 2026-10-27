@@ -166,59 +166,53 @@ export default function SkillsPage() {
               );
 
               const Icon = selectedIcon?.Icon;
+              const isSelected = selectedSkillId === skill.id;
 
               return (
                 <div
                   key={skill.id}
-                  onClick={() => {
-                    const nextId =
-                      selectedSkillId === skill.id ? null : skill.id;
+                  className={`flex max-w-[235px] shrink-0 items-center gap-1 rounded-xl border px-2 py-2 text-sm font-semibold transition-colors ${isSelected ? "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-400" : "border-zinc-200 bg-white text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"}`}
+                >
+                  <button
+                    type="button"
+                    aria-pressed={isSelected}
+                    onClick={() => {
+                      const nextId = isSelected ? null : skill.id;
 
-                    setSelectedSkillId(nextId);
-                    setSelectedSubSkillId(null);
+                      setSelectedSkillId(nextId);
+                      setSelectedSubSkillId(null);
 
-                    if (nextId !== null) {
-                      localStorage.setItem(
-                        "selectedSkillId",
-                        nextId
-                      );
-                    } else {
-                      localStorage.removeItem(
-                        "selectedSkillId"
-                      );
-                    }
-                  }}
-                  className={`flex max-w-[235px] shrink-0 cursor-pointer items-center gap-2 rounded-xl border px-3 py-3 text-sm font-semibold transition-colors sm:gap-3 sm:px-4 ${
-                    selectedSkillId === skill.id ? "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-400" : "border-zinc-200 bg-white text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"}`}>
-                  {Icon && (
-                    <Icon
-                      size={18}
-                      strokeWidth={1.8}
-                      className="shrink-0"/>
-                  )}
-
-                  <span className="min-w-0 truncate">
-                    {skill.name}
-                  </span>
-
+                      if (nextId !== null) {
+                        localStorage.setItem("selectedSkillId", nextId);
+                      } else {
+                        localStorage.removeItem("selectedSkillId");
+                      }
+                    }}
+                    className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-md px-1 py-1.5 text-left focus-visible:outline-2 focus-visible:outline-red-500"
+                  >
+                    {Icon && (
+                      <Icon size={18} strokeWidth={1.8} className="shrink-0" />
+                    )}
+                    <span className="min-w-0 truncate">{skill.name}</span>
+                  </button>
                   <button
                     type="button"
                     aria-label={`Edit ${skill.name}`}
                     title="Edit skill"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      setEditingItem({ kind: "skill", id: skill.id });
-                    }}
-                    className="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md opacity-60 transition-opacity hover:opacity-100 focus-visible:opacity-100">
+                    onClick={() => setEditingItem({ kind: "skill", id: skill.id })}
+                    className="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md opacity-60 transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-red-500"
+                  >
                     <Pencil size={15} />
                   </button>
-                  <X
-                    size={15}
-                    className="size-8 shrink-0 cursor-pointer rounded-md p-1.5 opacity-60 transition-opacity hover:opacity-100 sm:size-[15px] sm:p-0"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      setSkillToDelete(skill.id);
-                    }}/>
+                  <button
+                    type="button"
+                    aria-label={`Delete ${skill.name}`}
+                    title="Delete skill"
+                    onClick={() => setSkillToDelete(skill.id)}
+                    className="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md opacity-60 transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-red-500"
+                  >
+                    <X size={15} />
+                  </button>
                 </div>
               );
             })}

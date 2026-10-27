@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Skill Tracker
 
-## Getting Started
+A personal learning-progress tracker built with Next.js. Create skills, break them into connected subskills, and follow your progress in an interactive skill tree.
 
-First, run the development server:
+## Features
+
+- Create, edit, and delete up to **10 skills**, with custom names, descriptions, and searchable icons.
+- Organize subskills into **parent–child relationships**. Delete a subskill together with its descendants.
+- Explore an interactive **skill tree**, drag nodes to custom positions, and zoom from 50% to 200%.
+- Mark subskills as learned and follow the completion percentage for each skill on the dashboard.
+- See up to three not-yet-learned subskills suggested on the dashboard.
+- Build consistency with a **study streak**: one increment after a 24-hour cooldown, with expiry after 48 hours without another increment.
+- Switch between light and dark themes.
+
+## Tech stack
+
+- **Next.js 16** (App Router)
+- **React 19** and **TypeScript**
+- **Tailwind CSS 4**
+- **Lucide React** and **React Icons**
+- **Browser localStorage** for persistence
+
+## Run locally
+
+Install Node.js and npm, then run:
 
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Available checks:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build
+```
 
-## Learn More
+## Using the app
 
-To learn more about Next.js, take a look at the following resources:
+1. Open **Skills** and create a skill (for example, JavaScript).
+2. Select that skill to open its tree and add your first subskill.
+3. Open any subskill to edit it, mark it as learned, or create a child subskill.
+4. Use **Dashboard** to see progress, recommended subskills, and your study streak.
+5. Drag nodes to customize your tree. Their positions and your preferred zoom are saved locally.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `src/app/components/skills/` — skill creation/editing, dialogs, and interactive tree
+- `src/app/components/dashboard/` — skill selection, recommendations, progress, and streak
+- `src/app/components/lib/` — localStorage helpers and streak rules
+- `src/app/components/types/` — TypeScript types for skills and subskills
+- `src/app/components/ui/` — theme toggle
 
-## Deploy on Vercel
+## Storage and limitations
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+All skills, subskills, node positions, and streak data are saved **in your browser**. There is no backend, account login, or cross-device synchronization. Tabs in the same browser profile can refresh their views when stored data changes, but clearing browser storage or using another browser/device will not preserve your data.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is designed as a personal learning exercise and portfolio project.
+
+## Author
+
+[Andrei Muntianu](https://github.com/mntandrei)

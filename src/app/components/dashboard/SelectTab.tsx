@@ -6,6 +6,7 @@ import type { Dispatch, SetStateAction } from "react";
 import {
   getSkills,
   getSubSkills,
+  SKILLS_UPDATED_EVENT,
 } from "@/app/components/lib/skills-storage";
 
 import { skillIcons } from "@/app/components/skills/IconPicker";
@@ -23,12 +24,26 @@ export default function SelectTab({selectedSkillId, setSelectedSkillId,}: Select
   const [subSkills, setSubSkills] = useState<SubSkill[]>([]);
 
   useEffect(() => {
-    try {
-      setSkills(getSkills());
-      setSubSkills(getSubSkills());
-    } catch (error) {
-      console.error("Failed to load skills:", error);
+    function refreshSkills() {
+      try {
+        setSkills(getSkills());
+        setSubSkills(getSubSkills());
+      } catch (error) {
+        console.error("Failed to load skills:", error);
+      }
     }
+
+    refreshSkills();
+
+    window.addEventListener(SKILLS_UPDATED_EVENT, refreshSkills);
+    window.addEventListener("storage", refreshSkills);
+    window.addEventListener("focus", refreshSkills);
+
+    return () => {
+      window.removeEventListener(SKILLS_UPDATED_EVENT, refreshSkills);
+      window.removeEventListener("storage", refreshSkills);
+      window.removeEventListener("focus", refreshSkills);
+    };
   }, []);
 
   const recommendedSkills = subSkills
