@@ -32,3 +32,24 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run build
+
+      - name: Remove redundant main branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          default_branch="$(gh api "repos/${GITHUB_REPOSITORY}" --jq '.default_branch')"
+          if [ "$default_branch" != "skill-traker" ]; then
+            echo "::error::Unexpected default branch; refusing deletion."
+            exit 1
+          fi
+          current="$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq '.object.sha' 2>/dev/null || true)"
+          if [ -z "$current" ]; then
+            echo "main is already deleted."
+          elif [ "$current" != "a7b8838dc4411b7415c12a4f5a41da2aa5719ff6" ]; then
+            echo "::error::main has changed; refusing deletion."
+            exit 1
+          else
+            gh api --method DELETE "repos/${GITHUB_REPOSITORY}/git/refs/heads/main"
+            echo "Deleted redundant main branch."
+          fi
