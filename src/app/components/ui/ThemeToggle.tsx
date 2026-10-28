@@ -14,31 +14,28 @@ export default function ThemeToggle() {
 
     if (!rect) return;
 
-    const zoom =
-      Number.parseFloat(
-        getComputedStyle(document.documentElement).zoom) || 1;
-
-    const x = (rect.left + rect.width / 2) / zoom;
-    const y = (rect.top + rect.height / 2) / zoom;
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
 
     const radius =
       Math.hypot(
-        Math.max(x, window.innerWidth / zoom - x),
-        Math.max(y, window.innerHeight / zoom - y)) + 24;
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y)
+      ) + 24;
 
     const html = document.documentElement;
 
     const changeTheme = () => {
       const isDark = html.classList.toggle("dark");
+      const theme = isDark ? "dark" : "light";
 
       try {
-        localStorage.setItem(
-          "theme",
-          isDark ? "dark" : "light"
-        );
+        localStorage.setItem("theme", theme);
       } catch {
         console.error("Failed to save theme preference.");
       }
+
+      document.cookie = `theme=${theme}; path=/; max-age=31536000; SameSite=Lax`;
     };
 
     if (
