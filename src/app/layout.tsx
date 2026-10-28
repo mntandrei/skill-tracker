@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import "./globals.css";
 import NavBar from "./components/layout/NavBar";
 
@@ -13,23 +14,24 @@ export const metadata: Metadata = {
 const version = "v1.1.0";
 const release = "RELEASED";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const savedTheme = (await cookies()).get("theme")?.value;
+
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={savedTheme === "dark" ? "dark" : undefined} suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{__html: `
               try {
                 const savedTheme = localStorage.getItem("theme");
 
-                if (savedTheme === "dark") {
-                  document.documentElement.classList.add("dark");
-                } else {
-                  document.documentElement.classList.remove("dark");
+                if (savedTheme === "dark" || savedTheme === "light") {
+                  document.documentElement.classList.toggle("dark", savedTheme === "dark");
+                  document.cookie = "theme=" + savedTheme + "; path=/; max-age=31536000; SameSite=Lax";
                 }
               } catch {}
             `,
