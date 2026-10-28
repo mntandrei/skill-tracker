@@ -15,31 +15,16 @@ html.dark {
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
+  animation: none;
   mix-blend-mode: normal;
 }
 
 ::view-transition-old(root) {
-  animation: none;
   z-index: 1;
 }
 
-html.theme-changing::view-transition-new(root) {
-  animation: theme-circle-reveal 650ms ease-in-out both;
+::view-transition-new(root) {
   z-index: 2;
-}
-
-@keyframes theme-circle-reveal {
-  from {
-    clip-path: circle(
-      0px at var(--reveal-x) var(--reveal-y)
-    );
-  }
-
-  to {
-    clip-path: circle(
-      var(--reveal-radius) at var(--reveal-x) var(--reveal-y)
-    );
-  }
 }
 
 html.theme-changing *,
