@@ -48,28 +48,18 @@ export default function ThemeToggle() {
 
     isAnimating.current = true;
 
+    html.style.setProperty("--theme-reveal-x", `${x}px`);
+    html.style.setProperty("--theme-reveal-y", `${y}px`);
+    html.style.setProperty("--theme-reveal-radius", `${radius}px`);
     html.classList.add("theme-changing");
 
     const transition = document.startViewTransition(changeTheme);
 
-    void transition.ready.then(() => {
-      html.animate(
-        {
-          clipPath: [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${radius}px at ${x}px ${y}px)`,
-          ],
-        },
-        {
-          duration: 650,
-          easing: "ease-in-out",
-          pseudoElement: "::view-transition-new(root)",
-        }
-      );
-    }).catch(() => {});
-
     const cleanup = () => {
       html.classList.remove("theme-changing");
+      html.style.removeProperty("--theme-reveal-x");
+      html.style.removeProperty("--theme-reveal-y");
+      html.style.removeProperty("--theme-reveal-radius");
       isAnimating.current = false;
     };
 
