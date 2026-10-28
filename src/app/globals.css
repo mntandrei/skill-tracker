@@ -3,10 +3,12 @@
 
 html {
   color-scheme: light;
+  background-color: #fafafa;
 }
 
 html.dark {
   color-scheme: dark;
+  background-color: #09090b;
 }
 
 ::view-transition-image-pair(root) {
