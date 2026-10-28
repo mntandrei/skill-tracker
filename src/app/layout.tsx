@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import "./globals.css";
 import NavBar from "./components/layout/NavBar";
 
@@ -14,15 +13,13 @@ export const metadata: Metadata = {
 const version = "v1.1.1";
 const release = "RELEASED";
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const savedTheme = (await cookies()).get("theme")?.value;
-
   return (
-    <html lang="en" className={savedTheme === "dark" ? "dark" : undefined} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{__html: `
