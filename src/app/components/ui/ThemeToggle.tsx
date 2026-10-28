@@ -51,13 +51,25 @@ export default function ThemeToggle() {
 
     isAnimating.current = true;
 
-    html.style.setProperty("--reveal-x", `${x}px`);
-    html.style.setProperty("--reveal-y", `${y}px`);
-    html.style.setProperty("--reveal-radius", `${radius}px`);
-
     html.classList.add("theme-changing");
 
     const transition = document.startViewTransition(changeTheme);
+
+    void transition.ready.then(() => {
+      html.animate(
+        {
+          clipPath: [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${radius}px at ${x}px ${y}px)`,
+          ],
+        },
+        {
+          duration: 650,
+          easing: "ease-in-out",
+          pseudoElement: "::view-transition-new(root)",
+        }
+      );
+    }).catch(() => {});
 
     const cleanup = () => {
       html.classList.remove("theme-changing");
