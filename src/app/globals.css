@@ -11,8 +11,12 @@ html.dark {
   background-color: #09090b;
 }
 
+html.theme-changing {
+  color-scheme: var(--theme-old-color-scheme);
+}
+
 ::view-transition-image-pair(root) {
-  isolation: auto;
+  isolation: isolate;
 }
 
 ::view-transition-old(root),
@@ -29,7 +33,12 @@ html.dark {
   z-index: 2;
 }
 
+html.theme-changing::view-transition-old(root) {
+  background-color: var(--theme-old-background);
+}
+
 html.theme-changing::view-transition-new(root) {
+  background-color: var(--theme-new-background);
   animation: theme-circle-reveal 650ms ease-in-out both;
 }
 
@@ -49,16 +58,12 @@ html.theme-changing *::after {
   transition: none !important;
 }
 
-/* Uniform desktop scale: same laptop design, 25% bigger at 1800px+.
-   At 1536px (laptop), unchanged. At 1920px, every element scales together.
-   Phones remain governed by the existing mobile Tailwind classes. */
 @media (min-width: 1800px) {
   html {
     zoom: 1.25;
   }
 
   body.min-h-screen {
-    /* Compensates for scaling 100vh to avoid an unnecessary scrollbar. */
     min-height: 80vh;
   }
 }
