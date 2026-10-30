@@ -40,20 +40,23 @@ export default function StreakTab({ skillId }: { skillId: string }) {
     window.addEventListener(STREAK_UPDATED_EVENT, refreshStreak);
     window.addEventListener("storage", refreshStreak);
     window.addEventListener("focus", refreshStreak);
+    document.addEventListener("visibilitychange", refreshStreak);
 
     return () => {
       window.clearInterval(interval);
       window.removeEventListener(STREAK_UPDATED_EVENT, refreshStreak);
       window.removeEventListener("storage", refreshStreak);
       window.removeEventListener("focus", refreshStreak);
+      document.removeEventListener("visibilitychange", refreshStreak);
     };
   }, [skillId]);
 
   const lastIncreaseAt = streak.lastIncreaseAt;
-  const isActive = Boolean(skillId) && now !== null && lastIncreaseAt !== null && now >= lastIncreaseAt && now < lastIncreaseAt + STREAK_EXPIRY_MS;
+  const lastActivityAt = streak.lastActivityAt;
+  const isActive = Boolean(skillId) && now !== null && lastActivityAt !== null && now < lastActivityAt + STREAK_EXPIRY_MS;
   const streakCount = isActive ? streak.count : 0;
-  const cooldownRemaining = isActive && lastIncreaseAt !== null ? Math.max(0, lastIncreaseAt + STREAK_COOLDOWN_MS - now!) : 0;
-  const endRemaining = isActive && lastIncreaseAt !== null ? Math.max(0, lastIncreaseAt + STREAK_EXPIRY_MS - now!) : 0;
+  const cooldownRemaining = isActive && lastIncreaseAt !== null ? Math.min(STREAK_COOLDOWN_MS, Math.max(0, lastIncreaseAt + STREAK_COOLDOWN_MS - now!)) : 0;
+  const endRemaining = isActive && lastActivityAt !== null ? Math.min(STREAK_EXPIRY_MS, Math.max(0, lastActivityAt + STREAK_EXPIRY_MS - now!)) : 0;
   const isCooldown = cooldownRemaining > 0;
   const statusMessage = !skillId ? "Select a skill to track your streak." : now === null ? "Loading streak..." : isCooldown ? "Cooldown active. Your streak is protected." 
     : isActive  ? "Ready! Mark a subskill as learned to continue." : "Mark a subskill as learned to start.";

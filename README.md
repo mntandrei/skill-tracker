@@ -9,7 +9,7 @@ A personal learning-progress tracker built with Next.js. Create skills, break th
 - Explore an interactive **skill tree**, drag nodes to custom positions, and zoom from 50% to 200%.
 - Mark subskills as learned and follow the completion percentage for each skill on the dashboard.
 - See up to three not-yet-learned subskills suggested on the dashboard.
-- Build consistency with a **study streak**: one increment after a 24-hour cooldown, with expiry after 48 hours without another increment.
+- Build consistency with a **study streak**: one increment after a 24-hour cooldown. Marking a subskill as learned during cooldown still protects the streak, which expires after 48 hours without learning activity.
 - Switch between light and dark themes.
 
 ## Tech stack
