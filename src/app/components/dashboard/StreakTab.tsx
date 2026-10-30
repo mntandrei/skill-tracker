@@ -21,6 +21,7 @@ export default function StreakTab({ skillId }: { skillId: string }) {
   const [streak, setStreak] = useState<StreakState>({
     count: 0,
     lastIncreaseAt: null,
+    lastActivityAt: null,
   });
 
   const [now, setNow] = useState<number | null>(null);
