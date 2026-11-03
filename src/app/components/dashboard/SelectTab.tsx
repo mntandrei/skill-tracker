@@ -7,6 +7,7 @@ import {
   getSkills,
   getSubSkills,
   SKILLS_UPDATED_EVENT,
+  saveSelectedSkillId,
 } from "@/app/components/lib/skills-storage";
 
 import { skillIcons } from "@/app/components/skills/IconPicker";
@@ -68,11 +69,7 @@ export default function SelectTab({selectedSkillId, setSelectedSkillId,}: Select
 
           setSelectedSkillId(id);
 
-          if (id) {
-            localStorage.setItem("selectedSkillId", id);
-          } else {
-            localStorage.removeItem("selectedSkillId");
-          }
+          saveSelectedSkillId(id);
         }}
         className="mt-2 h-11 w-full cursor-pointer rounded-xl border border-zinc-200 bg-zinc-50 px-3 text-sm text-zinc-800 outline-none transition-colors focus:border-red-500 focus:ring-2 focus:ring-red-500/15 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
       >
@@ -123,7 +120,9 @@ export default function SelectTab({selectedSkillId, setSelectedSkillId,}: Select
         ) : (
           <div className="mt-3 flex min-h-24 items-center justify-center rounded-xl border border-dashed border-zinc-200 bg-zinc-50 px-4 text-center dark:border-zinc-700 dark:bg-zinc-900">
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
-              Add a skill to appear recommendation
+              {selectedSkillId
+                ? "No unlearned subskills. Add a new subskill for recommendations."
+                : "Select a skill to see recommendations."}
             </p>
           </div>
         )}

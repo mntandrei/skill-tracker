@@ -3,6 +3,28 @@ import type { SubSkill } from "../types/subskill";
 
 export const SKILLS_UPDATED_EVENT = "skill-tracker:skills-updated";
 
+export function getSelectedSkillId(): string | null {
+  if (typeof window === "undefined") return null;
+
+  try {
+    return localStorage.getItem("selectedSkillId");
+  } catch (error) {
+    console.error("Failed to read selected skill:", error);
+    return null;
+  }
+}
+
+export function saveSelectedSkillId(id: string | null): void {
+  if (typeof window === "undefined") return;
+
+  try {
+    if (id) localStorage.setItem("selectedSkillId", id);
+    else localStorage.removeItem("selectedSkillId");
+  } catch (error) {
+    console.error("Failed to save selected skill:", error);
+  }
+}
+
 function notifySkillsUpdated(): void {
   if (typeof window !== "undefined") {
     window.dispatchEvent(new Event(SKILLS_UPDATED_EVENT));

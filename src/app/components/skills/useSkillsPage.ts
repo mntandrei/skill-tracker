@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getSkills, getSubSkills, saveSkills, saveSubSkills } from "../lib/skills-storage";
+import { getSelectedSkillId, getSkills, getSubSkills, saveSelectedSkillId, saveSkills, saveSubSkills } from "../lib/skills-storage";
 import { clearStreak, increaseStreak } from "../lib/streak-storage";
 import { removeSubSkillTree } from "../lib/skill-operations";
 import type { Skill } from "../types/skill";
@@ -35,14 +35,14 @@ export function useSkillsPage() {
         initialLoad = false;
       }
 
-      const storedId = localStorage.getItem("selectedSkillId");
+      const storedId = getSelectedSkillId();
       const validId = storedId && loadedSkills.some((item) => item.id === storedId)
         ? storedId
         : null;
 
       setSelectedSkillId(validId);
       setSelectedSubSkillId((current) =>
-        loadedSubSkills.some((item) => item.id === current) ? current : null
+        loadedSubSkills.some((item) => item.id === current && item.skillId === validId) ? current : null
       );
     }
 
@@ -61,8 +61,7 @@ export function useSkillsPage() {
   function handleSelectSkill(id: string | null) {
     setSelectedSkillId(id);
     setSelectedSubSkillId(null);
-    if (id) localStorage.setItem("selectedSkillId", id);
-    else localStorage.removeItem("selectedSkillId");
+    saveSelectedSkillId(id);
   }
 
   function handleCreateRoot(skillId: string) {
