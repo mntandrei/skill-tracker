@@ -17,6 +17,7 @@ type SubSkillNodeProps = {
   onSelect: (id: string) => void;
   onMove: (id: string, x: number, y: number) => void;
   onDrop: (id: string, x: number, y: number) => void;
+  onCancel: (id: string) => void;
 };
 
 type DragInfo = {
@@ -28,7 +29,7 @@ type DragInfo = {
   moved: boolean;
 };
 
-export default function SubSkillNode({subSkill, position, scale = 1, onSelect, onMove, onDrop,}: SubSkillNodeProps) {
+export default function SubSkillNode({subSkill, position, scale = 1, onSelect, onMove, onDrop, onCancel,}: SubSkillNodeProps) {
   const dragRef = useRef<DragInfo | null>(null);
   const wasDraggedRef = useRef(false);
 
@@ -82,7 +83,10 @@ export default function SubSkillNode({subSkill, position, scale = 1, onSelect, o
       return;
     }
 
-    if (drag.moved) {
+    if (event.type === "pointercancel") {
+      onCancel(subSkill.id);
+      wasDraggedRef.current = false;
+    } else if (drag.moved) {
       const dx = event.clientX - drag.startClientX;
       const dy = event.clientY - drag.startClientY;
 

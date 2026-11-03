@@ -23,7 +23,7 @@ export default function SubSkillModal({subSkill,onClose,onEdit,onMarkLearned,onC
   const Icon = selectedIcon?.Icon;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-zinc-950/60 p-3 sm:items-center sm:p-4">
+    <div role="dialog" aria-modal="true" aria-labelledby="subskill-dialog-title" className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-zinc-950/60 p-3 sm:items-center sm:p-4">
       <div className="relative max-h-[calc(100dvh-1.5rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xl sm:max-h-[calc(100dvh-2rem)] sm:p-7 dark:border-zinc-800 dark:bg-zinc-900">
         <div className="mb-6 text-center">
           <div
@@ -31,7 +31,7 @@ export default function SubSkillModal({subSkill,onClose,onEdit,onMarkLearned,onC
               subSkill.studied ? "bg-green-500/10 text-green-700 dark:text-green-400" : "bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400"}`}>
             {Icon && <Icon size={25} strokeWidth={1.8} />}
           </div>
-          <h2 className="break-words text-xl font-bold text-zinc-900 sm:text-2xl dark:text-white">
+          <h2 id="subskill-dialog-title" className="break-words text-xl font-bold text-zinc-900 sm:text-2xl dark:text-white">
             {subSkill.name}
           </h2>
           <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">

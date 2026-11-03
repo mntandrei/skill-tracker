@@ -408,6 +408,9 @@ export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onE
 
     if (event.type !== "pointercancel") {
       handleRootPointerMove(event);
+    } else {
+      setRootPosition(drag.start);
+      rootWasDraggedRef.current = false;
     }
 
     rootDragRef.current = null;
@@ -415,7 +418,7 @@ export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onE
       event.currentTarget.releasePointerCapture(event.pointerId);
     }
 
-    if (drag.moved) {
+    if (drag.moved && event.type !== "pointercancel") {
       try {
         localStorage.setItem(rootStorageKey, JSON.stringify(drag.current));
       } catch {
@@ -431,6 +434,15 @@ export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onE
       ...previous,
       [id]: position,
     }));
+  }
+
+  function handleCancel(id: string) {
+    setDragPositions((previous) => {
+      if (!(id in previous)) return previous;
+      const updated = { ...previous };
+      delete updated[id];
+      return updated;
+    });
   }
 
   function handleDrop(id: string, x: number,  y: number) {
@@ -564,6 +576,7 @@ export default function SkillTree({skill, subSkills, onSelect, onCreateRoot, onE
               onSelect={onSelect}
               onMove={handleMove}
               onDrop={handleDrop}
+              onCancel={handleCancel}
             />
           );
         })}

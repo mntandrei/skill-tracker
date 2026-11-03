@@ -1,13 +1,17 @@
 import type { SubSkill } from "../types/subskill";
 
 export function removeSubSkillTree(subSkills: SubSkill[], rootId: string): SubSkill[] {
+  const root = subSkills.find((item) => item.id === rootId);
+  if (!root) return subSkills;
+
   const idsToDelete = new Set<string>([rootId]);
   let changed = true;
 
   while (changed) {
     changed = false;
     for (const item of subSkills) {
-      if (item.parentSubSkillId !== null &&
+      if (item.skillId === root.skillId &&
+          item.parentSubSkillId !== null &&
           idsToDelete.has(item.parentSubSkillId) &&
           !idsToDelete.has(item.id)) {
         idsToDelete.add(item.id);
@@ -16,7 +20,9 @@ export function removeSubSkillTree(subSkills: SubSkill[], rootId: string): SubSk
     }
   }
 
-  return subSkills.filter((item) => !idsToDelete.has(item.id));
+  return subSkills.filter((item) =>
+    item.skillId !== root.skillId || !idsToDelete.has(item.id)
+  );
 }
 
 export function getSkillProgress(subSkills: SubSkill[], skillId: string): number {

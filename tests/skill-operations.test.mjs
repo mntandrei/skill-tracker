@@ -13,3 +13,17 @@ test("progress is scoped to the selected skill", () => {
   assert.equal(getSkillProgress(input,"two"),100);
   assert.equal(getSkillProgress(input,"none"),0);
 });
+test("deleting a subtree cannot remove another skill's nodes with colliding IDs", () => {
+  const input = [
+    item("root"), item("child", "root"),
+    item("root", null, false, "two"), item("other-child", "root", false, "two"),
+  ];
+  assert.deepEqual(
+    removeSubSkillTree(input, "root").map((node) => node.skillId + ":" + node.id),
+    ["two:root", "two:other-child"]
+  );
+});
+test("deleting an unknown root does not remove orphaned nodes", () => {
+  const input = [item("orphan", "missing"), item("unrelated")];
+  assert.deepEqual(removeSubSkillTree(input, "missing"), input);
+});
