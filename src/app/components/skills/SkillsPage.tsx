@@ -125,6 +125,7 @@ export default function SkillsPage() {
 
       {isOpen && (
         <CreateSkillModal
+          isFirstSkill={skills.length === 0}
           onClose={() => setIsOpen(false)}
           onCreate={handleCreateSkill}
         />

@@ -5,7 +5,7 @@ import SelectTab from "./SelectTab";
 import StreakTab from "./StreakTab";
 import ProgressTab from "./ProgressTab";
 import type { SubSkill } from "../types/subskill";
-import { getSkills, getSubSkills, SKILLS_UPDATED_EVENT } from "@/app/components/lib/skills-storage";
+import { getSelectedSkillId, getSkills, getSubSkills, SKILLS_UPDATED_EVENT } from "@/app/components/lib/skills-storage";
 
 export default function PannelSkills() {
   const [selectedSkillId, setSelectedSkillId] = useState<string>("");
@@ -16,7 +16,7 @@ export default function PannelSkills() {
       try {
         const savedSubSkills = getSubSkills();
         const savedSkills = getSkills();
-        const savedId = localStorage.getItem("selectedSkillId");
+        const savedId = getSelectedSkillId();
 
         setSubSkills(savedSubSkills);
         setSelectedSkillId(

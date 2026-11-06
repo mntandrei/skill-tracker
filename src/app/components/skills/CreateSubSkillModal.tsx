@@ -61,7 +61,7 @@ export default function CreateSubSkillModal({onClose, onCreate, skillId, parentS
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-zinc-950/60 p-3 sm:items-center sm:p-4">
+    <div role="dialog" aria-modal="true" aria-labelledby="create-subskill-title" className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-zinc-950/60 p-3 sm:items-center sm:p-4">
       <div className="relative max-h-[calc(100dvh-1.5rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xl sm:max-h-[calc(100dvh-2rem)] sm:p-7 dark:border-zinc-800 dark:bg-zinc-900">
         <div className="mb-6 text-center">
           <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-400">
@@ -71,7 +71,7 @@ export default function CreateSubSkillModal({onClose, onCreate, skillId, parentS
               <Plus size={25} strokeWidth={1.8} />
             )}
           </div>
-          <h2 className="text-xl font-bold text-zinc-900 sm:text-2xl dark:text-white">
+          <h2 id="create-subskill-title" className="text-xl font-bold text-zinc-900 sm:text-2xl dark:text-white">
             Create Subskill
           </h2>
           <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">

@@ -1649,9 +1649,10 @@ export default function IconPicker({
 
   const [search, setSearch] = useState("");
 
+  const query = search.trim().toLowerCase();
   const filteredIcons = skillIcons.filter(
     ({ id, category: iconCategory }) =>
-      iconCategory === category && id.includes(search.trim().toLowerCase()),
+      id.includes(query) && (query.length > 0 || iconCategory === category),
   );
 
   return (
