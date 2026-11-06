@@ -94,15 +94,18 @@ export default function About() {
               </h2>
 
               <p className="mt-3 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
-                I want to be transparent about something: I used AI while building Skill Tracker. 
-                It helped me understand new concepts, work through bugs, 
-                and write parts of the code that were beyond what I could build on my own at the time.
+                While building Skill Tracker, I used AI as a learning companion and coding mentor throughout the development process. 
+                Rather than relying on it to build the project for me, I used it to explore unfamiliar concepts, 
+                discuss technical decisions, understand errors, and receive feedback on my code.
               </p>
 
               <p className="mt-3 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
-                I’m still learning how everything works, and that’s the point. 
-                I don’t want to rely on AI forever. My goal is to understand what 
-                I’m building and eventually create projects like this independently.
+                My focus has always been on understanding the logic behind what I write, 
+                making my own implementation decisions, 
+                and improving my ability to solve problems independently.
+                I believe AI can be a valuable learning tool when used thoughtfully. 
+                My goal is not just to build working applications, 
+                but to develop the knowledge and confidence to build them independently.
               </p>
             </div>
           </div>
@@ -124,7 +127,7 @@ export default function About() {
 
                 <p className="mt-2 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
                   My goal is to become a front-end developer. 
-                  I know I still have a lot to learn, but I’m ready to put in the time and effort. 
+                  I know I still have a lot to learn, but I&apos;m ready to put in the time and effort. 
                   I want to keep strengthening my JavaScript, React, and TypeScript skills, 
                   build more projects, and gain confidence in writing code independently.
                 </p>
