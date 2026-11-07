@@ -94,7 +94,7 @@ export default function About() {
               </h2>
 
               <p className="mt-3 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
-                used AI as a learning companion and coding mentor while building Skill Tracker. 
+                I used AI as a learning companion and coding mentor while building Skill Tracker. 
                 I didn't use it to build the project for me, but to explore unfamiliar concepts, 
                 discuss technical decisions, understand errors and get feedback on my code.
               </p>
