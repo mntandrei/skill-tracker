@@ -94,18 +94,17 @@ export default function About() {
               </h2>
 
               <p className="mt-3 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
-                While building Skill Tracker, I used AI as a learning companion and coding mentor throughout the development process. 
-                Rather than relying on it to build the project for me, I used it to explore unfamiliar concepts, 
-                discuss technical decisions, understand errors, and receive feedback on my code.
+                used AI as a learning companion and coding mentor while building Skill Tracker. 
+                I didn't use it to build the project for me, but to explore unfamiliar concepts, 
+                discuss technical decisions, understand errors and get feedback on my code.
               </p>
 
               <p className="mt-3 text-sm leading-7 text-zinc-600 dark:text-zinc-400">
-                My focus has always been on understanding the logic behind what I write, 
-                making my own implementation decisions, 
-                and improving my ability to solve problems independently.
-                I believe AI can be a valuable learning tool when used thoughtfully. 
-                My goal is not just to build working applications, 
-                but to develop the knowledge and confidence to build them independently.
+                I have always focused on understanding the reasoning behind my writing,
+                making my own implementation decisions and improving my ability to solve problems on my own. 
+                "AI has the potential to be a useful learning tool, if it is used thoughtfully. 
+                I want to build working applications, 
+                but also to gain the knowledge and confidence to build them on my own.
               </p>
             </div>
           </div>
