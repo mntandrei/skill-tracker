@@ -33,14 +33,12 @@ export default function SkillsPage() {
               return (
                 <div
                   key={skill.id}
-                  className={`flex max-w-[235px] shrink-0 items-center gap-1 rounded-xl border px-2 py-2 text-sm font-semibold transition-colors ${isSelected ? "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-400" : "border-zinc-200 bg-white text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"}`}
-                >
+                  className={`flex max-w-[235px] shrink-0 items-center gap-1 rounded-xl border px-2 py-2 text-sm font-semibold transition-colors ${isSelected ? "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-400" : "border-zinc-200 bg-white text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"}`}>
                   <button
                     type="button"
                     aria-pressed={isSelected}
                     onClick={() => handleSelectSkill(isSelected ? null : skill.id)}
-                    className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-md px-1 py-1.5 text-left focus-visible:outline-2 focus-visible:outline-red-500"
-                  >
+                    className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-md px-1 py-1.5 text-left focus-visible:outline-2 focus-visible:outline-red-500">
                     {Icon && (
                       <Icon size={18} strokeWidth={1.8} className="shrink-0" />
                     )}
@@ -51,8 +49,7 @@ export default function SkillsPage() {
                     aria-label={`Edit ${skill.name}`}
                     title="Edit skill"
                     onClick={() => setEditingItem({ kind: "skill", id: skill.id })}
-                    className="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md opacity-60 transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-red-500"
-                  >
+                    className="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md opacity-60 transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-red-500">
                     <Pencil size={15} />
                   </button>
                   <button
@@ -60,8 +57,7 @@ export default function SkillsPage() {
                     aria-label={`Delete ${skill.name}`}
                     title="Delete skill"
                     onClick={() => setSkillToDelete(skill.id)}
-                    className="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md opacity-60 transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-red-500"
-                  >
+                    className="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md opacity-60 transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-2 focus-visible:outline-red-500">
                     <X size={15} />
                   </button>
                 </div>
@@ -73,13 +69,13 @@ export default function SkillsPage() {
             type="button"
             aria-label="Add skill"
             onClick={() => setIsOpen(true)}
-            disabled={skills.length >= 10}
+            disabled={skills.length >= 30}
             className="flex h-[46px] w-[46px] shrink-0 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-800 shadow-sm transition-colors hover:border-red-300 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-red-700 dark:hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-40">
             <Plus size={20} />
           </button>
 
           <span className="shrink-0 whitespace-nowrap pt-4 text-[11px] font-medium text-zinc-500 dark:text-zinc-400 sm:text-xs">
-            {skills.length} / 10 skills
+            {skills.length} / 30 skills
           </span>
         </div>
 

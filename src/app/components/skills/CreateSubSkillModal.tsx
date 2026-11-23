@@ -41,7 +41,6 @@ export default function CreateSubSkillModal({onClose, onCreate, skillId, parentS
 
     if (isNameInvalid || isIconInvalid) {
       return;
-      
     }
 
     if (typeof subskillName !== "string") return;
