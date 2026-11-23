@@ -13,11 +13,7 @@ export const metadata: Metadata = {
 const version = "v1.2.2";
 const release = "RELEASED";
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({children,}: Readonly<{ children: React.ReactNode;}>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
