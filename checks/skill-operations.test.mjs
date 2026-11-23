@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { removeSubSkillTree, getSkillProgress } from "../src/app/components/lib/skill-operations.ts";
+import { moveSkill, removeSubSkillTree, getSkillProgress } from "../src/app/components/lib/skill-operations.ts";
 const item = (id, parentSubSkillId = null, studied = false, skillId = "one") => ({id, parentSubSkillId, studied, skillId, name:id, icon:"code", description:"", x:0, y:0});
 test("deleting a parent deletes its descendants but keeps independent nodes", () => {
   const input = [item("root"),item("child","root"),item("grandchild","child"),item("other")];
@@ -26,4 +26,13 @@ test("deleting a subtree cannot remove another skill's nodes with colliding IDs"
 test("deleting an unknown root does not remove orphaned nodes", () => {
   const input = [item("orphan", "missing"), item("unrelated")];
   assert.deepEqual(removeSubSkillTree(input, "missing"), input);
+});
+
+test("moving skills across the list preserves the original records and supports either direction", () => {
+  const skills = ["a", "b", "c"].map((id) => ({ id }));
+  const moved = moveSkill(skills, "a", "c");
+  assert.deepEqual(moved, [skills[1], skills[2], skills[0]]);
+  assert.deepEqual(moveSkill(moved, "a", "b"), skills);
+  assert.equal(moveSkill(skills, "a", "missing"), skills);
+  assert.equal(moveSkill(skills, "a", "a"), skills);
 });

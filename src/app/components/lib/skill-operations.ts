@@ -1,4 +1,18 @@
+import type { Skill } from "../types/skill";
 import type { SubSkill } from "../types/subskill";
+
+export const MAX_SKILLS = 30;
+
+export function moveSkill(skills: Skill[], sourceId: string, targetId: string): Skill[] {
+  const from = skills.findIndex((skill) => skill.id === sourceId);
+  const to = skills.findIndex((skill) => skill.id === targetId);
+  if (from < 0 || to < 0 || from === to) return skills;
+
+  const ordered = [...skills];
+  const [moved] = ordered.splice(from, 1);
+  ordered.splice(to, 0, moved);
+  return ordered;
+}
 
 export function removeSubSkillTree(subSkills: SubSkill[], rootId: string): SubSkill[] {
   const root = subSkills.find((item) => item.id === rootId);

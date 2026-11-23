@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef, useState } from "react";
+import { MAX_SKILLS } from "../lib/skill-operations";
 import { Pencil, Plus, X } from "lucide-react";
 import CreateSkillModal from "./CreateSkillModal";
 import DeleteSkillModal from "./DeleteSkillModal";
@@ -12,8 +14,16 @@ import { useSkillsPage } from "./useSkillsPage";
 
 export default function SkillsPage() {
   const {
-    editingItem, setEditingItem, isOpen, setIsOpen, skills, skillToDelete, setSkillToDelete, selectedSkillId, setSelectedSubSkillId, isSubSkillModalOpen, createSubSkillParentId, selectedSkill, selectedSubSkill, currentSubSkills, itemToEdit, handleSelectSkill, handleCreateRoot, handleCreateChildSubSkill, handleCloseCreateSubSkill, handleCreateSkill, handleCreateSubSkill, handleSaveDetails, handlePositionChange, handleMarkLearned, handleDeleteSubSkill, handleDeleteSkill
+    editingItem, setEditingItem, isOpen, setIsOpen, skills, skillToDelete, setSkillToDelete, selectedSkillId, setSelectedSubSkillId, isSubSkillModalOpen, createSubSkillParentId, selectedSkill, selectedSubSkill, currentSubSkills, itemToEdit, handleMoveSkill, handleSelectSkill, handleCreateRoot, handleCreateChildSubSkill, handleCloseCreateSubSkill, handleCreateSkill, handleCreateSubSkill, handleSaveDetails, handlePositionChange, handleMarkLearned, handleDeleteSubSkill, handleDeleteSkill
   } = useSkillsPage();
+
+  const drag = useRef<{ pointerId: number; x: number; y: number; moved: boolean } | null>(null);
+  const suppressClick = useRef(false);
+  const [targetId, setTargetId] = useState<string | null>(null);
+
+  function skillAt(x: number, y: number) {
+    return document.elementFromPoint(x, y)?.closest<HTMLElement>("[data-skill-tab]")?.dataset.skillTab;
+  }
 
   return (
     <>
@@ -22,7 +32,7 @@ export default function SkillsPage() {
         <div className="flex min-w-0 shrink-0 items-start gap-2 border-b border-zinc-200 pb-3 dark:border-zinc-700 sm:pb-4">
           <div className="flex min-w-0 flex-1 items-center gap-2 overflow-x-auto pb-1 md:flex-wrap md:overflow-visible md:pb-0">
 
-            {skills.map((skill) => {
+            {skills.map((skill, index) => {
               const selectedIcon = skillIcons.find(
                 (icon) => icon.id === skill.icon
               );
@@ -33,12 +43,49 @@ export default function SkillsPage() {
               return (
                 <div
                   key={skill.id}
-                  className={`flex max-w-[235px] shrink-0 items-center gap-1 rounded-xl border px-2 py-2 text-sm font-semibold transition-colors ${isSelected ? "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-400" : "border-zinc-200 bg-white text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"}`}>
+                  data-skill-tab={skill.id}
+                  className={`flex max-w-[235px] shrink-0 items-center gap-1 rounded-xl border px-2 py-2 text-sm font-semibold transition-colors ${targetId === skill.id ? "ring-2 ring-red-400" : ""} ${isSelected ? "border-red-200 bg-red-50 text-red-700 dark:border-red-900 dark:bg-red-950/50 dark:text-red-400" : "border-zinc-200 bg-white text-zinc-800 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"}`}>
                   <button
                     type="button"
                     aria-pressed={isSelected}
-                    onClick={() => handleSelectSkill(isSelected ? null : skill.id)}
-                    className="flex min-w-0 flex-1 cursor-pointer items-center gap-2 rounded-md px-1 py-1.5 text-left focus-visible:outline-2 focus-visible:outline-red-500">
+                    title="Click to select, drag to reorder, or use Alt + Left/Right"
+                    aria-keyshortcuts="Alt+ArrowLeft Alt+ArrowRight"
+                    onKeyDown={(event) => {
+                      if (!event.altKey || !["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+                      event.preventDefault();
+                      const neighbor = skills[index + (event.key === "ArrowLeft" ? -1 : 1)];
+                      if (neighbor) handleMoveSkill(skill.id, neighbor.id);
+                    }}
+                    onPointerDown={(event) => {
+                      if (event.button !== 0 || !event.isPrimary) return;
+                      suppressClick.current = false;
+                      drag.current = { pointerId: event.pointerId, x: event.clientX, y: event.clientY, moved: false };
+                      event.currentTarget.setPointerCapture(event.pointerId);
+                    }}
+                    onPointerMove={(event) => {
+                      const start = drag.current;
+                      if (!start || start.pointerId !== event.pointerId) return;
+                      if (Math.hypot(event.clientX - start.x, event.clientY - start.y) >= 6) start.moved = true;
+                      if (start.moved) setTargetId(skillAt(event.clientX, event.clientY) ?? null);
+                    }}
+                    onPointerUp={(event) => {
+                      const start = drag.current;
+                      if (!start || start.pointerId !== event.pointerId) return;
+                      suppressClick.current = start.moved;
+                      const target = skillAt(event.clientX, event.clientY);
+                      if (start.moved && target) handleMoveSkill(skill.id, target);
+                      drag.current = null;
+                      setTargetId(null);
+                    }}
+                    onLostPointerCapture={() => {
+                      drag.current = null;
+                      setTargetId(null);
+                    }}
+                    onClick={(event) => {
+                      if (!event.detail || !suppressClick.current) handleSelectSkill(isSelected ? null : skill.id);
+                      suppressClick.current = false;
+                    }}
+                    className="flex min-w-0 flex-1 touch-none cursor-grab select-none items-center active:cursor-grabbing gap-2 rounded-md px-1 py-1.5 text-left focus-visible:outline-2 focus-visible:outline-red-500">
                     {Icon && (
                       <Icon size={18} strokeWidth={1.8} className="shrink-0" />
                     )}
@@ -69,13 +116,13 @@ export default function SkillsPage() {
             type="button"
             aria-label="Add skill"
             onClick={() => setIsOpen(true)}
-            disabled={skills.length >= 30}
+            disabled={skills.length >= MAX_SKILLS}
             className="flex h-[46px] w-[46px] shrink-0 cursor-pointer items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-800 shadow-sm transition-colors hover:border-red-300 hover:text-red-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:border-red-700 dark:hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-40">
             <Plus size={20} />
           </button>
 
           <span className="shrink-0 whitespace-nowrap pt-4 text-[11px] font-medium text-zinc-500 dark:text-zinc-400 sm:text-xs">
-            {skills.length} / 30 skills
+            {skills.length} / {MAX_SKILLS} skills
           </span>
         </div>
 

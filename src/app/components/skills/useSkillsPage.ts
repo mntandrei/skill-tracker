@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { getSelectedSkillId, getSkills, getSubSkills, saveSelectedSkillId, saveSkills, saveSubSkills } from "../lib/skills-storage";
 import { clearStreak, increaseStreak } from "../lib/streak-storage";
-import { removeSubSkillTree } from "../lib/skill-operations";
+import { MAX_SKILLS, moveSkill, removeSubSkillTree } from "../lib/skill-operations";
 import type { Skill } from "../types/skill";
 import type { SubSkill } from "../types/subskill";
 
@@ -82,8 +82,15 @@ export function useSkillsPage() {
     setCreateSubSkillParentId(null);
   }
 
+  function handleMoveSkill(sourceId: string, targetId: string) {
+    const ordered = moveSkill(skills, sourceId, targetId);
+    if (ordered === skills) return;
+    setSkills(ordered);
+    saveSkills(ordered);
+  }
+
   function handleCreateSkill(newSkill: Skill) {
-    if (skills.length >= 10) return;
+    if (skills.length >= MAX_SKILLS) return;
     const updated = [...skills, newSkill];
     setSkills(updated);
     saveSkills(updated);
@@ -174,7 +181,7 @@ export function useSkillsPage() {
     selectedSkillId, selectedSubSkillId, setSelectedSubSkillId,
     isSubSkillModalOpen, createSubSkillParentId,
     selectedSkill, selectedSubSkill, currentSubSkills, itemToEdit,
-    handleSelectSkill, handleCreateRoot, handleCreateChildSubSkill,
+    handleMoveSkill, handleSelectSkill, handleCreateRoot, handleCreateChildSubSkill,
     handleCloseCreateSubSkill, handleCreateSkill, handleCreateSubSkill,
     handleSaveDetails, handlePositionChange, handleMarkLearned,
     handleDeleteSubSkill, handleDeleteSkill,

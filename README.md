@@ -33,7 +33,7 @@ Personal application to track your progress in learning new skills using Next.js
 
 ## Features
 
-- **Create/edit/delete up to 10 skills.** Each skill has a custom name, description and icon, which can be searched for.
+- **Create/edit/delete up to 30 skills.** Drag a skill tab to change its saved position, or focus it and press Alt + Left/Right. Each skill has a custom name, description and icon, which can be searched for.
 - **Create parent-child relationships between subskills,** and delete subskills and their children.
 - **Interact with your interactive skill tree.** Move nodes to your preferred location, and zoom between 50-200%.
 - **Tick off subskills,** and track your progress percentage on the dashboard.
